@@ -8,19 +8,20 @@ import dataaccess.Auth;
 import dataaccess.DataAccess;
 import dataaccess.DataAccessFacade;
 import dataaccess.User;
+import validation.RuleException;
 
 public class SystemController implements ControllerInterface {
 	public static Auth currentAuth = null;
 	
-	public void login(String id, String password) throws LoginException {
+	public void login(String id, String password) throws RuleException {
 		DataAccess da = new DataAccessFacade();
 		HashMap<String, User> map = da.readUserMap();
 		if(!map.containsKey(id)) {
-			throw new LoginException("ID " + id + " not found");
+			throw new RuleException("ID " + id + " not found");
 		}
 		String passwordFound = map.get(id).getPassword();
 		if(!passwordFound.equals(password)) {
-			throw new LoginException("Password incorrect");
+			throw new RuleException("Password incorrect");
 		}
 		currentAuth = map.get(id).getAuthorization();
 		

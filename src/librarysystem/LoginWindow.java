@@ -20,6 +20,9 @@ import business.ControllerInterface;
 
 import business.LoginException;
 import business.SystemController;
+import validation.RuleException;
+import validation.RuleSet;
+import validation.RuleSetFactory;
 
 
 public class LoginWindow extends JFrame implements LibWindow {
@@ -159,6 +162,14 @@ public class LoginWindow extends JFrame implements LibWindow {
     		leftTextPanel.add(topText,BorderLayout.NORTH);
     		leftTextPanel.add(bottomText,BorderLayout.CENTER);
     	}
+
+		public String getId(){
+			return username.getText();
+		}
+
+	public String getPassword(){
+		return password.getText();
+	}
     	private void defineRightTextPanel() {
     		
     		JPanel topText = new JPanel();
@@ -187,11 +198,12 @@ public class LoginWindow extends JFrame implements LibWindow {
     	
     	private void addLoginButtonListener(JButton butn) {
     		butn.addActionListener(evt -> {
-				String user = username.getText();
-				String pass = password.getText();
+				RuleSet rules = RuleSetFactory.getRuleSet(this);
+
 				SystemController loginController = new SystemController();
                 try {
-                    loginController.login(user, pass);
+					rules.applyRules(this);
+                    loginController.login(getId(),getPassword());
 
 					// If no exception is thrown, consider it a successful login
 					JOptionPane.showMessageDialog(this, "Successful Login");
@@ -201,8 +213,8 @@ public class LoginWindow extends JFrame implements LibWindow {
 					AllBookIdsWindow.INSTANCE.setVisible(true);
 					AllBookIdsWindow.INSTANCE.init();
 
-                } catch (LoginException e) {
-					JOptionPane.showMessageDialog(this,"Login failed. Please check your credentials.");
+                } catch (RuleException e) {
+					JOptionPane.showMessageDialog(this,e.toString());
                 }
 				username.setText("");
 				password.setText("");

@@ -20,9 +20,11 @@ public class DataAccessFacade implements DataAccess {
 	enum StorageType {
 		BOOKS, MEMBERS, USERS;
 	}
-	
-	public static final String OUTPUT_DIR = System.getProperty("user.dir") 
+
+	public static final String OUTPUT_DIR = System.getProperty("user.dir")
 			+ "\\src\\dataaccess\\storage";
+	public static final String OUTPUT_DIR_MAC = System.getProperty("user.dir")
+			+ "/src/dataaccess/storage";
 	public static final String DATE_PATTERN = "MM/dd/yyyy";
 	
 	//implement: other save operations
@@ -81,7 +83,9 @@ public class DataAccessFacade implements DataAccess {
 	static void saveToStorage(StorageType type, Object ob) {
 		ObjectOutputStream out = null;
 		try {
-			Path path = FileSystems.getDefault().getPath(OUTPUT_DIR, type.toString());
+			String osName = System.getProperty("os.name");
+			boolean isMac = osName.startsWith("Mac");
+			Path path = FileSystems.getDefault().getPath(isMac?OUTPUT_DIR_MAC:OUTPUT_DIR, type.toString());
 			out = new ObjectOutputStream(Files.newOutputStream(path));
 			out.writeObject(ob);
 		} catch(IOException e) {
@@ -99,7 +103,9 @@ public class DataAccessFacade implements DataAccess {
 		ObjectInputStream in = null;
 		Object retVal = null;
 		try {
-			Path path = FileSystems.getDefault().getPath(OUTPUT_DIR, type.toString());
+			String osName = System.getProperty("os.name");
+			boolean isMac = osName.startsWith("Mac");
+			Path path = FileSystems.getDefault().getPath(isMac?OUTPUT_DIR_MAC:OUTPUT_DIR, type.toString());
 			in = new ObjectInputStream(Files.newInputStream(path));
 			retVal = in.readObject();
 		} catch(Exception e) {

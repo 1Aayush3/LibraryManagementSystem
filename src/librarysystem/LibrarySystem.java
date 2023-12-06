@@ -1,5 +1,6 @@
 package librarysystem;
 
+import java.lang.management.ManagementFactory;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -63,7 +64,14 @@ public class LibrarySystem extends JFrame implements LibWindow {
     
     private void setPathToImage() {
     	String currDirectory = System.getProperty("user.dir");
-    	pathToImage = currDirectory+"\\src\\librarysystem\\library.jpg";
+		String osName = System.getProperty("os.name");
+		boolean isMac = osName.startsWith("Mac");
+		if(isMac){
+			pathToImage = currDirectory + "/src/librarysystem/library.jpg";
+		}
+		else {
+			pathToImage = currDirectory + "\\src\\librarysystem\\library.jpg";
+		}
     }
     
     private void insertSplashImage() {

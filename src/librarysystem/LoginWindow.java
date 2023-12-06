@@ -18,6 +18,7 @@ import javax.swing.JOptionPane;
 
 import business.ControllerInterface;
 
+import business.LoginException;
 import business.SystemController;
 
 
@@ -186,8 +187,25 @@ public class LoginWindow extends JFrame implements LibWindow {
     	
     	private void addLoginButtonListener(JButton butn) {
     		butn.addActionListener(evt -> {
-    			JOptionPane.showMessageDialog(this,"Successful Login");
-    				
+				String user = username.getText();
+				String pass = password.getText();
+				SystemController loginController = new SystemController();
+                try {
+                    loginController.login(user, pass);
+
+					// If no exception is thrown, consider it a successful login
+					JOptionPane.showMessageDialog(this, "Successful Login");
+
+//todo: close login form and redirect to Dashboard
+					this.setVisible(false);
+					AllBookIdsWindow.INSTANCE.setVisible(true);
+					AllBookIdsWindow.INSTANCE.init();
+
+                } catch (LoginException e) {
+					JOptionPane.showMessageDialog(this,"Login failed. Please check your credentials.");
+                }
+				username.setText("");
+				password.setText("");
     		});
     	}
 	

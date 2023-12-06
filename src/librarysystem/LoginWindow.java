@@ -214,7 +214,7 @@ public class LoginWindow extends JFrame implements LibWindow {
 					AllBookIdsWindow.INSTANCE.init();
 
                 } catch (RuleException e) {
-					JOptionPane.showMessageDialog(this,e.toString());
+					JOptionPane.showMessageDialog(this,e.getMessage());
                 }
 				username.setText("");
 				password.setText("");

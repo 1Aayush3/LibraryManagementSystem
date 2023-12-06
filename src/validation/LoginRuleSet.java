@@ -18,7 +18,7 @@ public class LoginRuleSet implements RuleSet {
 
     private void checkIdNullValidity() throws RuleException{
         if(loginWindow.getId().isEmpty() || loginWindow.getPassword().isEmpty()){
-            throw new RuleException(loginWindow, Message.invalidErrorText);
+            throw new RuleException( Message.invalidErrorText);
         }
     }
     private void checkIdIntegerValidity() throws RuleException {
@@ -26,7 +26,7 @@ public class LoginRuleSet implements RuleSet {
         try {
             Integer.parseInt(userId);
         } catch (NumberFormatException e) {
-            throw new RuleException(loginWindow, Message.invalidErrorText);
+            throw new RuleException( Message.invalidErrorText);
         }
     }
 }

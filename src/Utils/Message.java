@@ -6,5 +6,5 @@ public class Message {
 
     }
 
-    public static String blankUserIDErrorText = "User ID can't be blank";
+    public static String invalidErrorText = "Invalid User or Password";
 }

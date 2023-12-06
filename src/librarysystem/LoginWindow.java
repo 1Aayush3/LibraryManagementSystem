@@ -19,6 +19,9 @@ import javax.swing.JOptionPane;
 import business.ControllerInterface;
 
 import business.SystemController;
+import validation.RuleException;
+import validation.RuleSet;
+import validation.RuleSetFactory;
 
 
 public class LoginWindow extends JFrame implements LibWindow {
@@ -158,6 +161,10 @@ public class LoginWindow extends JFrame implements LibWindow {
     		leftTextPanel.add(topText,BorderLayout.NORTH);
     		leftTextPanel.add(bottomText,BorderLayout.CENTER);
     	}
+
+		public String getId(){
+			return username.getText();
+		}
     	private void defineRightTextPanel() {
     		
     		JPanel topText = new JPanel();
@@ -186,11 +193,12 @@ public class LoginWindow extends JFrame implements LibWindow {
     	
     	private void addLoginButtonListener(JButton butn) {
     		butn.addActionListener(evt -> {
-    			JOptionPane.showMessageDialog(this,"Successful Login");
-    				
-    		});
+				RuleSet rules = RuleSetFactory.getRuleSet(this);
+				try {
+					rules.applyRules(this);
+				} catch (RuleException e) {
+					System.out.println(e.toString());
+				}
+			});
     	}
-	
-        
-    
 }

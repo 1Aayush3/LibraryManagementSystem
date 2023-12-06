@@ -1,13 +1,11 @@
 package dataaccess;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import business.Address;
-import business.Author;
-import business.Book;
-import business.LibraryMember;
+import business.*;
 
 /**
  * This class loads data into the data repository and also
@@ -27,10 +25,32 @@ public class TestData {
 		td.bookData();
 		td.libraryMemberData();
 		td.userData();
+		td.checkoutData();
 		DataAccess da = new DataAccessFacade();
 		System.out.println(da.readBooksMap());
 		System.out.println(da.readUserMap());
+		System.out.println(da.readCheckoutRecordMap());
 	}
+
+	private void checkoutData() {
+		List<CheckoutRecord> checkoutRecords = new ArrayList<>();
+
+		List<CheckoutRecordEntry> checkoutRecordEntries = new ArrayList<>();
+		checkoutRecordEntries.add(new CheckoutRecordEntry(LocalDate.now(),LocalDate.now(),allBooks.get(0).getCopy(0)));
+		checkoutRecordEntries.add(new CheckoutRecordEntry(LocalDate.now(),LocalDate.now(),allBooks.get(1).getCopy(1)));
+		checkoutRecordEntries.add(new CheckoutRecordEntry(LocalDate.now(),LocalDate.now(),allBooks.get(2).getCopy(0)));
+		checkoutRecords.add(new CheckoutRecord("",members.get(0),checkoutRecordEntries));
+
+		checkoutRecordEntries = new ArrayList<>();
+		checkoutRecordEntries.add(new CheckoutRecordEntry(LocalDate.now(),LocalDate.now(),allBooks.get(0).getCopy(0)));
+		checkoutRecordEntries.add(new CheckoutRecordEntry(LocalDate.now(),LocalDate.now(),allBooks.get(1).getCopy(1)));
+		checkoutRecordEntries.add(new CheckoutRecordEntry(LocalDate.now(),LocalDate.now(),allBooks.get(2).getCopy(0)));
+		checkoutRecords.add(new CheckoutRecord("",members.get(1),checkoutRecordEntries));
+
+
+		DataAccessFacade.loadCheckoutRecordMap(checkoutRecords);
+	}
+
 	///create books
 	public void bookData() {
 		allBooks.get(0).addCopy();

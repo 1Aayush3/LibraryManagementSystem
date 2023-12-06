@@ -11,6 +11,7 @@ import java.util.List;
 
 import business.Book;
 import business.BookCopy;
+import business.CheckoutRecord;
 import business.LibraryMember;
 import dataaccess.DataAccessFacade.StorageType;
 
@@ -18,7 +19,7 @@ import dataaccess.DataAccessFacade.StorageType;
 public class DataAccessFacade implements DataAccess {
 	
 	enum StorageType {
-		BOOKS, MEMBERS, USERS;
+		BOOKS, MEMBERS, USERS, CHECKOUT;
 	}
 
 	public static final String OUTPUT_DIR = System.getProperty("user.dir")
@@ -32,7 +33,13 @@ public class DataAccessFacade implements DataAccess {
 		HashMap<String, LibraryMember> mems = readMemberMap();
 		String memberId = member.getMemberId();
 		mems.put(memberId, member);
-		saveToStorage(StorageType.MEMBERS, mems);	
+		saveToStorage(StorageType.MEMBERS, mems);
+	}
+	public void saveCheckoutRecord(CheckoutRecord checkoutRecord) {
+		HashMap<String, CheckoutRecord> checkouts = readCheckoutRecordMap();
+		String checkoutRecordId = checkoutRecord.getCheckoutRecordId();
+		checkouts.put(checkoutRecordId, checkoutRecord);
+		saveToStorage(StorageType.CHECKOUT, checkouts);
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -49,13 +56,19 @@ public class DataAccessFacade implements DataAccess {
 		return (HashMap<String, LibraryMember>) readFromStorage(
 				StorageType.MEMBERS);
 	}
-	
-	
+
+
 	@SuppressWarnings("unchecked")
 	public HashMap<String, User> readUserMap() {
 		//Returns a Map with name/value pairs being
 		//   userId -> User
 		return (HashMap<String, User>)readFromStorage(StorageType.USERS);
+	}
+	@SuppressWarnings("unchecked")
+	public HashMap<String, CheckoutRecord> readCheckoutRecordMap() {
+		//Returns a Map with name/value pairs being
+		//   checkoutRecordId -> CheckoutRecord
+		return (HashMap<String, CheckoutRecord>)readFromStorage(StorageType.CHECKOUT);
 	}
 	
 	
@@ -73,11 +86,16 @@ public class DataAccessFacade implements DataAccess {
 		userList.forEach(user -> users.put(user.getId(), user));
 		saveToStorage(StorageType.USERS, users);
 	}
- 
+
 	static void loadMemberMap(List<LibraryMember> memberList) {
 		HashMap<String, LibraryMember> members = new HashMap<String, LibraryMember>();
 		memberList.forEach(member -> members.put(member.getMemberId(), member));
 		saveToStorage(StorageType.MEMBERS, members);
+	}
+	static void loadCheckoutRecordMap(List<CheckoutRecord> checkoutRecords) {
+		HashMap<String, CheckoutRecord> checkoutRecordHashMap = new HashMap<String, CheckoutRecord>();
+		checkoutRecords.forEach(member -> checkoutRecordHashMap.put(member.getCheckoutRecordId(), member));
+		saveToStorage(StorageType.CHECKOUT, checkoutRecordHashMap);
 	}
 	
 	static void saveToStorage(StorageType type, Object ob) {

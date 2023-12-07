@@ -1,13 +1,16 @@
 package librarysystem;
 
+import business.SystemController;
+
 import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.ArrayList;
+import java.util.List;
 
-import static librarysystem.CheckOutWindow.getDefaultTableModel;
 
 public class Dashboard extends JFrame {
 
@@ -16,6 +19,7 @@ public class Dashboard extends JFrame {
     private JPanel infoPanel;
     private JPanel lowerPanel;
     public JTable table;
+    private SystemController systemController;
 
     void init(){
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -28,6 +32,7 @@ public class Dashboard extends JFrame {
         topPanel.add(new JLabel("Library Management System"));
 
         createInfoPanel();
+
         createTable();
 
         JPanel tableLabel = new JPanel(new BorderLayout());
@@ -42,6 +47,20 @@ public class Dashboard extends JFrame {
         add(mainPanel);
         setVisible(true);
     }
+    private DefaultTableModel getDefaultTableModel() {
+        List<String> columns = new ArrayList<>();
+        columns.add("FirstName");
+        columns.add("LastName");
+        columns.add("Checkout Date");
+        columns.add("Due Date");
+        columns.add("Book");
+        columns.add("ISBN");
+        systemController = new SystemController();
+        Object[][] rows = TableUtil.getRowsCheckout(systemController.allCheckoutRecords());
+
+        DefaultTableModel tableModel = TableUtil.getDefaultTableModel(columns, rows);
+        return tableModel;
+    }
 
     private void createTable() {
         lowerPanel = new JPanel();
@@ -52,7 +71,7 @@ public class Dashboard extends JFrame {
 
         // Create a JTable with the table model
         table = new JTable(tableModel);
-
+        table.setPreferredScrollableViewportSize(new Dimension(600,300));
         // Add the JTable to a scroll pane
         JScrollPane scrollPane = new JScrollPane(table);
 

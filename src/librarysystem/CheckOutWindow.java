@@ -221,13 +221,7 @@ public class CheckOutWindow extends JFrame implements LibWindow {
 	}
 
 	private DefaultTableModel getDefaultTableModel() {
-		List<String> columns = new ArrayList<>();
-		columns.add("FirstName");
-		columns.add("LastName");
-		columns.add("Checkout Date");
-		columns.add("Due Date");
-		columns.add("Book");
-		columns.add("ISBN");
+		List<String> columns = TableUtil.getColumnsCheckout();
 
 		Object[][] rows = TableUtil.getRowsCheckout(ci.allCheckoutRecords());
 

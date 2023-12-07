@@ -2,6 +2,7 @@ package business;
 
 import java.time.LocalDate;
 import java.util.*;
+import java.util.stream.Collectors;
 
 import dataaccess.Auth;
 import dataaccess.DataAccess;
@@ -74,7 +75,14 @@ public class SystemController implements ControllerInterface {
 		List<CheckoutRecord> retval = new ArrayList<>();
 		retval.addAll(da.readCheckoutRecordMap().values());
 		Collections.sort(retval, Comparator.comparing(o -> o.getCheckoutRecordEntryList().get(0).getDueDate()));
-		return limit == null? retval : retval.subList(0,limit);
+
+		if(date != null ) {
+			retval = retval.stream()
+					.filter(order -> order.getCheckoutRecordEntryList().get(0).getDueDate().isAfter(date))
+					.collect(Collectors.toList());
+		}
+
+		return limit == null? retval : retval.subList(0, Math.min(limit,retval.size()));
 	}
 
 
@@ -102,4 +110,20 @@ public class SystemController implements ControllerInterface {
 		availableCopy.getBook().updateCopies(availableCopy);
 		da.updateBook(availableCopy.getBook());
 	}
+
+	@Override
+	public String getTotalLibraryMemberss() {
+		return String.valueOf(allMemberIds().size());
+	}
+
+	@Override
+	public String getTotalCheckedOut() {
+		return String.valueOf(allCheckoutRecords().size());
+	}
+
+	@Override
+	public String getTotalBooks() {
+		return String.valueOf(allBooks().size());
+	}
+
 }

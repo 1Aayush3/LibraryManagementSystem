@@ -22,4 +22,9 @@ public interface ControllerInterface {
 
 	public void checkoutBook(String memberId, String bookISBN) throws RuleException;
 
+	String getTotalLibraryMemberss();
+
+	String getTotalCheckedOut();
+
+	String getTotalBooks();
 }

@@ -66,4 +66,15 @@ public class TableUtil {
         }
         return models;
     }
+
+    public static List<String> getColumnsCheckout() {
+        List<String> columns = new ArrayList<>();
+        columns.add("FirstName");
+        columns.add("LastName");
+        columns.add("Checkout Date");
+        columns.add("Due Date");
+        columns.add("Book");
+        columns.add("ISBN");
+        return columns;
+    }
 }

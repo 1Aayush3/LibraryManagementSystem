@@ -8,6 +8,7 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,6 +23,7 @@ public class Dashboard extends JFrame {
     private SystemController systemController;
 
     void init(){
+        systemController = new SystemController();
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(660,500);
         this.setVisible(true);
@@ -46,17 +48,15 @@ public class Dashboard extends JFrame {
         // Set the main panel as the content pane
         add(mainPanel);
         setVisible(true);
+
     }
     private DefaultTableModel getDefaultTableModel() {
-        List<String> columns = new ArrayList<>();
-        columns.add("FirstName");
-        columns.add("LastName");
-        columns.add("Checkout Date");
-        columns.add("Due Date");
-        columns.add("Book");
-        columns.add("ISBN");
-        systemController = new SystemController();
-        Object[][] rows = TableUtil.getRowsCheckout(systemController.allCheckoutRecords());
+        List<String> columns = TableUtil.getColumnsCheckout();
+
+        Object[][] rows = TableUtil.getRowsCheckout(
+                systemController.filteredCheckoutRecords(LocalDate.now().minusDays(1),
+                        null
+                ));
 
         DefaultTableModel tableModel = TableUtil.getDefaultTableModel(columns, rows);
         return tableModel;
@@ -80,9 +80,9 @@ public class Dashboard extends JFrame {
 
     private void createInfoPanel() {
 
-        JPanel boxPanel1 = createNumberBox("Library Members", "123");
-        JPanel boxPanel2 = createNumberBox("Books", "456");
-        JPanel boxPanel3 = createNumberBox("Checked Out Books", "789");
+        JPanel boxPanel1 = createNumberBox("Library Members", systemController.getTotalLibraryMemberss());
+        JPanel boxPanel2 = createNumberBox("Books", systemController.getTotalBooks());
+        JPanel boxPanel3 = createNumberBox("Checked Out Books", systemController.getTotalCheckedOut());
 
         boxPanel1.addMouseListener(new MouseListener() {
             @Override

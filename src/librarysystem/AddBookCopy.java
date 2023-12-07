@@ -13,64 +13,37 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class AddBookCopy extends JFrame {
 
+    public static final AddBookCopy INSTANCE = new AddBookCopy();
     private JButton searchButton;
     private JTextField searchField;
-    private JTable bookList;
+    private JTable bookListTable;
     private JLabel searchResult;
     private JButton addBookCopy;
-
-    String isbn;
+    private Object[][] rows;
+    private String isbn;
+    private List<String> columns;
+    private JPanel panel;
     private SystemController systemController;
-
-    AddBookCopy(){
+    private AddBookCopy(){}
+    void init(){
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setExtendedState(JFrame.MAXIMIZED_BOTH);
-        this.setSize(Toolkit.getDefaultToolkit().getScreenSize());
+        setSize(660,500);
         this.setVisible(true);
 
-        searchField = new JTextField(20);
-        searchResult = new JLabel();
-        addBookCopy = new JButton("Add Book Copy");
-        searchButton = new JButton("Search");
-        addBookCopy.setVisible(false);
+        initializeFields();
+        createTopPanel();
 
-
-        JPanel topPanel = new JPanel(new BorderLayout());
-
-        JPanel searchPanel = new JPanel();
-        searchPanel.add(searchField);
-        searchPanel.add(searchButton);
-
-        JPanel resultPanel = new JPanel();
-        resultPanel.add(searchResult);
-        resultPanel.add(addBookCopy);
-
-        topPanel.add(searchPanel, BorderLayout.NORTH);
-        topPanel.add(resultPanel, BorderLayout.SOUTH);
-
-        JPanel panel = new JPanel(new BorderLayout());
-        panel.add(topPanel, BorderLayout.NORTH);
-
-
-        HashMap<String, Book> bookList = systemController.allBooks();
-
-
-        DefaultTableModel model = new DefaultTableModel(
-                new Object[][]{
-                        {"John", "Doe", 30},
-                        {"Jane", "Smith", 25},
-                        {"Bob", "Johnson", 40}
-                },
-                new Object[]{"First Name", "Last Name", "Age"}
-        );
-//        bookList = new JTable(model);
-//        panel.add(new JScrollPane(bookList), BorderLayout.CENTER);
-
+        createTable();
+        panel.add(new JScrollPane(bookListTable), BorderLayout.CENTER);
         add(panel);
+        actionListeners();
+    }
 
+    private void actionListeners() {
         searchButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -82,17 +55,66 @@ public class AddBookCopy extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 systemController.addBookCopy(isbn);
+                rows = TableUtil.getRowsBooks(systemController.allBooks().values().stream().toList());
+                DefaultTableModel tableModel = TableUtil.getDefaultTableModel(columns, rows);
+                bookListTable.setModel(tableModel);
+                bookListTable.revalidate();
+                bookListTable.repaint();
             }
         });
-
-        add(panel);
     }
 
+    private void createTable() {
+        columns = new ArrayList<>();
+        columns.add("ISBN");
+        columns.add("Title");
+        columns.add("Copy Number");
+        systemController = new SystemController();
+
+        rows = TableUtil.getRowsBooks(systemController.allBooks().values().stream().toList());
+        DefaultTableModel tableModel = TableUtil.getDefaultTableModel(columns, rows);
+        bookListTable = new JTable(tableModel);
+    }
+
+    private void initializeFields() {
+        searchField = new JTextField(20);
+        searchResult = new JLabel();
+        addBookCopy = new JButton("Add Book Copy");
+        searchButton = new JButton("Search");
+        addBookCopy.setVisible(false);
+    }
+
+    private void createTopPanel() {
+        JPanel topPanel = new JPanel(new BorderLayout());
+
+        JPanel searchPanel = new JPanel();
+        searchPanel.setLayout(new BoxLayout(searchPanel, BoxLayout.Y_AXIS));
+
+        JLabel searchText = new JLabel("Search Book by ISBN");
+        searchText.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+        JPanel searchFieldPanel = new JPanel();
+        searchFieldPanel.add(searchField);
+        searchFieldPanel.add(searchButton);
+
+        searchPanel.add(searchText, BorderLayout.NORTH);
+        searchPanel.add(searchFieldPanel, BorderLayout.CENTER);
+
+        JPanel resultPanel = new JPanel();
+        resultPanel.add(searchResult);
+        resultPanel.add(addBookCopy);
+
+        topPanel.add(searchPanel, BorderLayout.NORTH);
+        topPanel.add(resultPanel, BorderLayout.SOUTH);
+
+         panel = new JPanel(new BorderLayout());
+        panel.add(topPanel, BorderLayout.NORTH);
+    }
 
 
     private void performSearch() {
         isbn = searchField.getText();
-        systemController = new SystemController();
+
         Book book = systemController.searchBookByISBN(isbn);
 
         if(book != null){
@@ -100,6 +122,7 @@ public class AddBookCopy extends JFrame {
             addBookCopy.setVisible(true);
         }else{
             searchResult.setText("Sorry No data found, Please try again");
+            addBookCopy.setVisible(false);
         }
 
     }

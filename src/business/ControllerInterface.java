@@ -16,4 +16,7 @@ public interface ControllerInterface {
 	public Book searchBookByISBN(String isbn);
 
 	public void addBookCopy(String isbn);
+	public List<CheckoutRecord> allCheckoutRecords();
+	public void checkoutBook(String memberId, String bookISBN);
+
 }

@@ -100,10 +100,11 @@ public class SystemController implements ControllerInterface {
 		if(availableCopy == null){
 			throw new RuleException("No available for book copy for "+ bookISBN);
 		}
+		Book book = availableCopy.getBook();
 
 		List<CheckoutRecordEntry> checkoutRecordEntries = new ArrayList<>();
 
-		checkoutRecordEntries.add(new CheckoutRecordEntry(LocalDate.now(),LocalDate.now(),availableCopy));
+		checkoutRecordEntries.add(new CheckoutRecordEntry(LocalDate.now(),LocalDate.now().plusDays(book.getMaxCheckoutLength()),availableCopy));
 		da.saveCheckoutRecord(new CheckoutRecord(""+ Util.randomId(),mbrs.get(memberId),checkoutRecordEntries));
 
 		availableCopy.changeAvailability();

@@ -66,8 +66,8 @@ public class AddBookCopy extends JFrame {
                 },
                 new Object[]{"First Name", "Last Name", "Age"}
         );
-        bookList = new JTable(model);
-        panel.add(new JScrollPane(bookList), BorderLayout.CENTER);
+//        bookList = new JTable(model);
+//        panel.add(new JScrollPane(bookList), BorderLayout.CENTER);
 
         add(panel);
 

@@ -13,14 +13,10 @@ public class Main {
 	public static void main(String[] args) {
 	      EventQueue.invokeLater(() -> 
 	         {
-//	            LibrarySystem.INSTANCE.setTitle("Sample Library Application");
-//	            LibrarySystem.INSTANCE.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//
-//	            LibrarySystem.INSTANCE.init();
-//	            centerFrameOnDesktop(LibrarySystem.INSTANCE);
-//	            LibrarySystem.INSTANCE.setVisible(true);
+	            LibrarySystem.INSTANCE.setTitle("Sample Library Application");
+	            LibrarySystem.INSTANCE.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-				 AddBookCopy.INSTANCE.init();
+				Dashboard.INSTANCE.init();
 
 	         });
 	   }

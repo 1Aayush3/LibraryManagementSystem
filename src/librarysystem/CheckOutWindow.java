@@ -73,7 +73,7 @@ public class CheckOutWindow extends JFrame implements LibWindow {
     		mainPanel.add(lowerHalf, BorderLayout.SOUTH);
     		getContentPane().add(mainPanel);
     		isInitialized(true);
-    		pack();
+//    		pack();
     		setSize(660, 500);
 
     	
@@ -141,14 +141,9 @@ public class CheckOutWindow extends JFrame implements LibWindow {
 		}
     	private void defineLowerPanel() {
     		lowerPanel = new JPanel();
-
-			// Create a table model with predefined data
-
-			DefaultTableModel tableModel = getDefaultTableModel();
-
 			// Create a JTable with the table model
-			table = new JTable(tableModel);
-
+			table = new JTable(getDefaultTableModel());
+			refreshTable();
 			// Add the JTable to a scroll pane
 			JScrollPane scrollPane = new JScrollPane(table);
 
@@ -156,30 +151,10 @@ public class CheckOutWindow extends JFrame implements LibWindow {
 
     	}
 
-	public static DefaultTableModel getDefaultTableModel() {
-		ControllerInterface ci = new SystemController();
-		List<CheckoutRecord> checkoutRecords = ci.allCheckoutRecords();
-
-		DefaultTableModel tableModel = new DefaultTableModel();
-		tableModel.addColumn("FirstName");
-		tableModel.addColumn("LastName");
-		tableModel.addColumn("Records");
-
-		// Populate the table model
-		for (CheckoutRecord object : checkoutRecords) {
-			tableModel.addRow(new Object[] {
-					object.getMember().getFirstName(),
-					object.getMember().getLastName(),
-					object.getCheckoutRecordId(),
-//						object.getCheckoutRecordEntryList().size()
-			});
-		}
-		return tableModel;
-	}
 
 
 	private void defineLeftTextPanel() {
-    		
+
 		JPanel topText = new JPanel();
 		JPanel bottomText = new JPanel();
 		topText.setLayout(new FlowLayout(FlowLayout.LEFT,5,0));
@@ -197,7 +172,7 @@ public class CheckOutWindow extends JFrame implements LibWindow {
 		leftTextPanel.add(bottomText,BorderLayout.CENTER);
 	}
 	private void defineRightTextPanel() {
-    		
+
 		JPanel topText = new JPanel();
 		JPanel bottomText = new JPanel();
 		topText.setLayout(new FlowLayout(FlowLayout.LEFT,5,0));
@@ -238,18 +213,20 @@ public class CheckOutWindow extends JFrame implements LibWindow {
 
 	public void refreshTable() {
 
-		List<String> columns = new ArrayList<>();
-		columns.add("FirstName");
-		columns.add("LastName");
-		columns.add("Result");
-
-		Object[][] rows = TableUtil.getRowsCheckout(ci.allCheckoutRecords());
-
-		DefaultTableModel tableModel = TableUtil.getDefaultTableModel(columns, rows);
+		DefaultTableModel tableModel = getDefaultTableModel();
 
 		table.setModel(tableModel);
 		table.revalidate();
 		table.repaint();
+	}
+
+	private DefaultTableModel getDefaultTableModel() {
+		List<String> columns = TableUtil.getColumnsCheckout();
+
+		Object[][] rows = TableUtil.getRowsCheckout(ci.allCheckoutRecords());
+
+		DefaultTableModel tableModel = TableUtil.getDefaultTableModel(columns, rows);
+		return tableModel;
 	}
 
 	public String getMemberId(){

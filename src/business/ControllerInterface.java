@@ -11,5 +11,6 @@ public interface ControllerInterface {
 	public List<String> allMemberIds();
 	public List<String> allBookIds();
 	public List<CheckoutRecord> allCheckoutRecords();
+	public void checkoutBook(String memberId, String bookISBN);
 	
 }

@@ -1,5 +1,6 @@
 package business;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -8,6 +9,7 @@ import dataaccess.Auth;
 import dataaccess.DataAccess;
 import dataaccess.DataAccessFacade;
 import dataaccess.User;
+import librarysystem.Util;
 
 public class SystemController implements ControllerInterface {
 	public static Auth currentAuth = null;
@@ -50,4 +52,16 @@ public class SystemController implements ControllerInterface {
 	}
 
 
+	public void checkoutBook(String memberId, String bookISBN) {
+		DataAccess da = new DataAccessFacade();
+		HashMap<String, LibraryMember> mbrs = da.readMemberMap();
+		HashMap<String, Book> bks = da.readBooksMap();
+
+		List<CheckoutRecordEntry> checkoutRecordEntries = new ArrayList<>();
+		checkoutRecordEntries.add(new CheckoutRecordEntry(LocalDate.now(),LocalDate.now(),bks.get(bks.keySet().toArray()[0]).getCopy(0)));
+		checkoutRecordEntries.add(new CheckoutRecordEntry(LocalDate.now(),LocalDate.now(),bks.get(bks.keySet().toArray()[0]).getCopy(1)));
+		checkoutRecordEntries.add(new CheckoutRecordEntry(LocalDate.now(),LocalDate.now(),bks.get(bks.keySet().toArray()[0]).getCopy(0)));
+		da.saveCheckoutRecord(new CheckoutRecord(""+ Util.randomId(),mbrs.get(mbrs.keySet().toArray()[0]),checkoutRecordEntries));
+
+	}
 }

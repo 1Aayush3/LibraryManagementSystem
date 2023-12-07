@@ -20,7 +20,10 @@ public class Util {
 
 	public static final Random random = new Random();
 	//rgb(18, 75, 14)
-	
+
+	public static int randomId(){
+		return random.nextInt(1000000);
+	}
 	public static Font makeSmallFont(Font f) {
         return new Font(f.getName(), f.getStyle(), (f.getSize()-2));
     }

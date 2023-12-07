@@ -37,7 +37,8 @@ public class CheckOutWindow extends JFrame implements LibWindow {
 	private JLabel label;
 	private JButton loginButton;
 	private JButton logoutButton;
-	private JTable table;
+	public JTable table;
+	private JButton checkoutButton;
 
 
 	public boolean isInitialized() {
@@ -129,7 +130,7 @@ public class CheckOutWindow extends JFrame implements LibWindow {
     		middlePanel.add(rightTextPanel);
 
 
-			JButton checkoutButton = new JButton("Checkout");
+			checkoutButton = new JButton("Checkout");
 			addCheckoutButtonListener(checkoutButton);
 			middlePanel.add(checkoutButton);
 
@@ -151,7 +152,7 @@ public class CheckOutWindow extends JFrame implements LibWindow {
 
     	}
 
-	private static DefaultTableModel getDefaultTableModel() {
+	public static DefaultTableModel getDefaultTableModel() {
 		ControllerInterface ci = new SystemController();
 		List<CheckoutRecord> checkoutRecords = ci.allCheckoutRecords();
 
@@ -174,50 +175,42 @@ public class CheckOutWindow extends JFrame implements LibWindow {
 
 	private void defineLeftTextPanel() {
     		
-    		JPanel topText = new JPanel();
-    		JPanel bottomText = new JPanel();
-    		topText.setLayout(new FlowLayout(FlowLayout.LEFT,5,0));
-    		bottomText.setLayout(new FlowLayout(FlowLayout.LEFT,5,0));		
+		JPanel topText = new JPanel();
+		JPanel bottomText = new JPanel();
+		topText.setLayout(new FlowLayout(FlowLayout.LEFT,5,0));
+		bottomText.setLayout(new FlowLayout(FlowLayout.LEFT,5,0));
+
+		memberId = new JTextField(10);
+		label = new JLabel("Member Id");
+		label.setFont(Util.makeSmallFont(label.getFont()));
+		topText.add(memberId);
+		bottomText.add(label);
+
+		leftTextPanel = new JPanel();
+		leftTextPanel.setLayout(new BorderLayout());
+		leftTextPanel.add(topText,BorderLayout.NORTH);
+		leftTextPanel.add(bottomText,BorderLayout.CENTER);
+	}
+	private void defineRightTextPanel() {
     		
-    		memberId = new JTextField(10);
-    		label = new JLabel("Member Id");
-    		label.setFont(Util.makeSmallFont(label.getFont()));
-    		topText.add(memberId);
-    		bottomText.add(label);
-    		
-    		leftTextPanel = new JPanel();
-    		leftTextPanel.setLayout(new BorderLayout());
-    		leftTextPanel.add(topText,BorderLayout.NORTH);
-    		leftTextPanel.add(bottomText,BorderLayout.CENTER);
-    	}
+		JPanel topText = new JPanel();
+		JPanel bottomText = new JPanel();
+		topText.setLayout(new FlowLayout(FlowLayout.LEFT,5,0));
+		bottomText.setLayout(new FlowLayout(FlowLayout.LEFT,5,0));
 
-		public String getId(){
-			return memberId.getText();
-		}
-    	private void defineRightTextPanel() {
-    		
-    		JPanel topText = new JPanel();
-    		JPanel bottomText = new JPanel();
-    		topText.setLayout(new FlowLayout(FlowLayout.LEFT,5,0));
-    		bottomText.setLayout(new FlowLayout(FlowLayout.LEFT,5,0));
-
-			String[] options = {"Option 1", "Option 2", "Option 3"};
-			JComboBox<String> comboBox = new JComboBox<>(options);
-			topText.add(comboBox);
-
-			bookISBN = new JTextField(10);
-    		label = new JLabel("Book ISBN");
-    		label.setFont(Util.makeSmallFont(label.getFont()));
-    		topText.add(bookISBN);
-    		bottomText.add(label);
+		bookISBN = new JTextField(10);
+		label = new JLabel("Book ISBN");
+		label.setFont(Util.makeSmallFont(label.getFont()));
+		topText.add(bookISBN);
+		bottomText.add(label);
 
 
-    		
-    		rightTextPanel = new JPanel();
-    		rightTextPanel.setLayout(new BorderLayout());
-    		rightTextPanel.add(topText,BorderLayout.NORTH);
-    		rightTextPanel.add(bottomText,BorderLayout.CENTER);
-    	}
+
+		rightTextPanel = new JPanel();
+		rightTextPanel.setLayout(new BorderLayout());
+		rightTextPanel.add(topText,BorderLayout.NORTH);
+		rightTextPanel.add(bottomText,BorderLayout.CENTER);
+	}
 
 	private void addBackButtonListener(JButton butn) {
 		butn.addActionListener(evt -> {
@@ -229,32 +222,27 @@ public class CheckOutWindow extends JFrame implements LibWindow {
 	private void addCheckoutButtonListener(JButton butn) {
 		butn.addActionListener(evt -> {
 
-			DataAccess da = new DataAccessFacade();
-			HashMap<String, LibraryMember> mbrs = da.readMemberMap();
-			HashMap<String, Book> bks = da.readBooksMap();
-
-			List<CheckoutRecordEntry> checkoutRecordEntries = new ArrayList<>();
-			checkoutRecordEntries.add(new CheckoutRecordEntry(LocalDate.now(),LocalDate.now(),bks.get(bks.keySet().toArray()[0]).getCopy(0)));
-			checkoutRecordEntries.add(new CheckoutRecordEntry(LocalDate.now(),LocalDate.now(),bks.get(bks.keySet().toArray()[0]).getCopy(1)));
-			checkoutRecordEntries.add(new CheckoutRecordEntry(LocalDate.now(),LocalDate.now(),bks.get(bks.keySet().toArray()[0]).getCopy(0)));
-			da.saveCheckoutRecord(new CheckoutRecord(""+Util.random.nextInt(100000),mbrs.get(mbrs.keySet().toArray()[0]),checkoutRecordEntries));
-
-			DefaultTableModel tableModel = getDefaultTableModel();
-
-			table.setModel(tableModel);
-			table.revalidate();
-			table.repaint();
+			RuleSet rules = RuleSetFactory.getRuleSet(this);
+			try {
+				rules.applyRules(this);
+			} catch (RuleException e) {
+				System.out.println(e.toString());
+			}
 		});
 	}
 
-	private void addLoginButtonListener(JButton butn) {
-    		butn.addActionListener(evt -> {
-				RuleSet rules = RuleSetFactory.getRuleSet(this);
-				try {
-					rules.applyRules(this);
-				} catch (RuleException e) {
-					System.out.println(e.toString());
-				}
-			});
-    	}
+	public void refreshTable() {
+		DefaultTableModel tableModel = getDefaultTableModel();
+
+		table.setModel(tableModel);
+		table.revalidate();
+		table.repaint();
+	}
+
+	public String getMemberId(){
+		return memberId.getText();
+	}
+	public String getBookISBN(){
+		return bookISBN.getText();
+	}
 }

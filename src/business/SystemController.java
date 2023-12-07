@@ -40,6 +40,14 @@ public class SystemController implements ControllerInterface {
 		retval.addAll(da.readBooksMap().keySet());
 		return retval;
 	}
-	
-	
+
+	@Override
+	public List<CheckoutRecord> allCheckoutRecords() {
+		DataAccess da = new DataAccessFacade();
+		List<CheckoutRecord> retval = new ArrayList<>();
+		retval.addAll(da.readCheckoutRecordMap().values());
+		return retval;
+	}
+
+
 }

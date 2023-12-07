@@ -7,6 +7,7 @@ import java.awt.Toolkit;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Random;
 
 import javax.swing.JLabel;
 
@@ -16,6 +17,8 @@ public class Util {
 	public static final Color INFO_MESSAGE_COLOR = new Color(24, 98, 19); //dark green
 	public static final Color LINK_AVAILABLE = DARK_BLUE;
 	public static final Color LINK_NOT_AVAILABLE = Color.gray;
+
+	public static final Random random = new Random();
 	//rgb(18, 75, 14)
 	
 	public static Font makeSmallFont(Font f) {

@@ -14,23 +14,22 @@ import validation.RuleException;
 
 public class SystemController implements ControllerInterface {
 	public static Auth currentAuth = null;
-	
-	public void login(String id, String password) throws LoginException {
-		DataAccess da = new DataAccessFacade();
+	private DataAccess da = new DataAccessFacade();
+
+	public void login(String id, String password) throws RuleException {
 		HashMap<String, User> map = da.readUserMap();
 		if(!map.containsKey(id)) {
-			throw new LoginException("ID " + id + " not found");
+			throw new RuleException("ID " + id + " not found");
 		}
 		String passwordFound = map.get(id).getPassword();
 		if(!passwordFound.equals(password)) {
-			throw new LoginException("Password incorrect");
+			throw new RuleException("Password incorrect");
 		}
 		currentAuth = map.get(id).getAuthorization();
 		
 	}
 	@Override
 	public List<String> allMemberIds() {
-		DataAccess da = new DataAccessFacade();
 		List<String> retval = new ArrayList<>();
 		retval.addAll(da.readMemberMap().keySet());
 		return retval;
@@ -38,11 +37,31 @@ public class SystemController implements ControllerInterface {
 	
 	@Override
 	public List<String> allBookIds() {
-		DataAccess da = new DataAccessFacade();
 		List<String> retval = new ArrayList<>();
 		retval.addAll(da.readBooksMap().keySet());
 		return retval;
 	}
+
+	@Override
+	public HashMap<String, Book> allBooks() {
+		return da.readBooksMap();
+	}
+
+	@Override
+	public Book searchBookByISBN(String isbn) {
+		da.getBookByIsbn(isbn);
+		return da.getBookByIsbn(isbn);
+	}
+
+	@Override
+	public void addBookCopy(String isbn) {
+		HashMap<String, Book> bookList = da.readBooksMap();
+		Book book = bookList.get(isbn);
+		book.addCopy();
+		da.updateBook(book);
+	}
+
+
 
 	@Override
 	public List<CheckoutRecord> allCheckoutRecords() {

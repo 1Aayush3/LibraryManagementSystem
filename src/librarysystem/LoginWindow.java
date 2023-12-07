@@ -18,6 +18,7 @@ import javax.swing.JOptionPane;
 
 import business.ControllerInterface;
 
+import business.LoginException;
 import business.SystemController;
 import validation.RuleException;
 import validation.RuleSet;
@@ -165,6 +166,10 @@ public class LoginWindow extends JFrame implements LibWindow {
 		public String getId(){
 			return username.getText();
 		}
+
+	public String getPassword(){
+		return password.getText();
+	}
     	private void defineRightTextPanel() {
     		
     		JPanel topText = new JPanel();
@@ -194,11 +199,28 @@ public class LoginWindow extends JFrame implements LibWindow {
     	private void addLoginButtonListener(JButton butn) {
     		butn.addActionListener(evt -> {
 				RuleSet rules = RuleSetFactory.getRuleSet(this);
-				try {
+
+				SystemController loginController = new SystemController();
+                try {
 					rules.applyRules(this);
-				} catch (RuleException e) {
-					System.out.println(e.toString());
-				}
-			});
+                    loginController.login(getId(),getPassword());
+
+					// If no exception is thrown, consider it a successful login
+					JOptionPane.showMessageDialog(this, "Successful Login");
+
+//todo: close login form and redirect to Dashboard
+					this.setVisible(false);
+					AllBookIdsWindow.INSTANCE.setVisible(true);
+					AllBookIdsWindow.INSTANCE.init();
+
+                } catch (RuleException e) {
+					JOptionPane.showMessageDialog(this,e.getMessage());
+                }
+				username.setText("");
+				password.setText("");
+    		});
     	}
+	
+        
+    
 }

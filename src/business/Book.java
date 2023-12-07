@@ -42,7 +42,6 @@ final public class Book implements Serializable {
 			retVal.add(c.getCopyNum());
 		}
 		return retVal;
-		
 	}
 	
 	public void addCopy() {

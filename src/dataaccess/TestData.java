@@ -36,15 +36,11 @@ public class TestData {
 		List<CheckoutRecord> checkoutRecords = new ArrayList<>();
 
 		List<CheckoutRecordEntry> checkoutRecordEntries = new ArrayList<>();
-		checkoutRecordEntries.add(new CheckoutRecordEntry(LocalDate.now(),LocalDate.now(),allBooks.get(0).getCopy(0)));
-		checkoutRecordEntries.add(new CheckoutRecordEntry(LocalDate.now(),LocalDate.now(),allBooks.get(1).getCopy(1)));
-		checkoutRecordEntries.add(new CheckoutRecordEntry(LocalDate.now(),LocalDate.now(),allBooks.get(2).getCopy(0)));
+		checkoutRecordEntries.add(new CheckoutRecordEntry(LocalDate.now(),LocalDate.now(),allBooks.get(0).getNextAvailableCopy()));
 		checkoutRecords.add(new CheckoutRecord("a",members.get(2),checkoutRecordEntries));
 
 		List<CheckoutRecordEntry> checkoutRecordEntries2 = new ArrayList<>();
-		checkoutRecordEntries2.add(new CheckoutRecordEntry(LocalDate.now(),LocalDate.now(),allBooks.get(0).getCopy(0)));
-		checkoutRecordEntries2.add(new CheckoutRecordEntry(LocalDate.now(),LocalDate.now(),allBooks.get(1).getCopy(1)));
-		checkoutRecordEntries2.add(new CheckoutRecordEntry(LocalDate.now(),LocalDate.now(),allBooks.get(2).getCopy(0)));
+		checkoutRecordEntries2.add(new CheckoutRecordEntry(LocalDate.now(),LocalDate.now(),allBooks.get(0).getNextAvailableCopy()));
 		checkoutRecords.add(new CheckoutRecord("b",members.get(1),checkoutRecordEntries2));
 
 

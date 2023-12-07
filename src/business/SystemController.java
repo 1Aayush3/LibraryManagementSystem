@@ -10,6 +10,7 @@ import dataaccess.DataAccess;
 import dataaccess.DataAccessFacade;
 import dataaccess.User;
 import librarysystem.Util;
+import validation.RuleException;
 
 public class SystemController implements ControllerInterface {
 	public static Auth currentAuth = null;
@@ -52,16 +53,27 @@ public class SystemController implements ControllerInterface {
 	}
 
 
-	public void checkoutBook(String memberId, String bookISBN) {
+	public void checkoutBook(String memberId, String bookISBN) throws RuleException {
 		DataAccess da = new DataAccessFacade();
 		HashMap<String, LibraryMember> mbrs = da.readMemberMap();
+		if(!mbrs.containsKey(memberId)){
+			throw new RuleException("Member not found");
+		}
 		HashMap<String, Book> bks = da.readBooksMap();
+		if(!bks.containsKey(bookISBN)){
+			throw new RuleException("Book not found with ISBN - "+ bookISBN);
+		}
+		BookCopy availableCopy = bks.get(bookISBN).getNextAvailableCopy();
+		if(availableCopy == null){
+			throw new RuleException("No available for book copy for "+ bookISBN);
+		}
 
 		List<CheckoutRecordEntry> checkoutRecordEntries = new ArrayList<>();
-		checkoutRecordEntries.add(new CheckoutRecordEntry(LocalDate.now(),LocalDate.now(),bks.get(bks.keySet().toArray()[0]).getCopy(0)));
-		checkoutRecordEntries.add(new CheckoutRecordEntry(LocalDate.now(),LocalDate.now(),bks.get(bks.keySet().toArray()[0]).getCopy(1)));
-		checkoutRecordEntries.add(new CheckoutRecordEntry(LocalDate.now(),LocalDate.now(),bks.get(bks.keySet().toArray()[0]).getCopy(0)));
-		da.saveCheckoutRecord(new CheckoutRecord(""+ Util.randomId(),mbrs.get(mbrs.keySet().toArray()[0]),checkoutRecordEntries));
+
+		checkoutRecordEntries.add(new CheckoutRecordEntry(LocalDate.now(),LocalDate.now(),availableCopy));
+		da.saveCheckoutRecord(new CheckoutRecord(""+ Util.randomId(),mbrs.get(memberId),checkoutRecordEntries));
+
+		availableCopy.changeAvailability();
 
 	}
 }

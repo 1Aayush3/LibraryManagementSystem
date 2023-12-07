@@ -13,7 +13,6 @@ import java.util.List;
 
 public class TableUtil {
 
-
     public static void updateTableData(JTable table, List<String> columnNames,String[][] rows) {
 
         DefaultTableModel tableModel = getDefaultTableModel(columnNames,rows);
@@ -39,20 +38,23 @@ public class TableUtil {
     }
 
     public static Object[][] getRowsCheckout(List<CheckoutRecord> checkoutRecords) {
-        Object[][] models = new Object[][];
+        Object[][] models = new Object[checkoutRecords.size()][];
         // Populate the table model
         for (int i =0;i<checkoutRecords.size();i++) {
             CheckoutRecord object = checkoutRecords.get(i);
-            models[i] = new Object[] {
+            models[i] = new Object[]  {
                     object.getMember().getFirstName(),
                     object.getMember().getLastName(),
-                    object.getCheckoutRecordId(),
+                    object.getCheckoutRecordEntryList().get(0).getCheckoutDate(),
+                    object.getCheckoutRecordEntryList().get(0).getDueDate(),
+                    object.getCheckoutRecordEntryList().get(0).getBookCopy().getBook().getTitle(),
+                    object.getCheckoutRecordEntryList().get(0).getBookCopy().getBook().getIsbn(),
             };
         }
         return models;
     }
     public static Object[][] getRowsBooks(List<Book> objects) {
-        Object[][] models = new Object[][];
+        Object[][] models = new Object[objects.size()][];
         // Populate the table model
         for (int i =0;i<objects.size();i++) {
             Book object = objects.get(i);

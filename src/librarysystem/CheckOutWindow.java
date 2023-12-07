@@ -73,7 +73,7 @@ public class CheckOutWindow extends JFrame implements LibWindow {
     		mainPanel.add(lowerHalf, BorderLayout.SOUTH);
     		getContentPane().add(mainPanel);
     		isInitialized(true);
-    		pack();
+//    		pack();
     		setSize(660, 500);
 
     	
@@ -144,38 +144,17 @@ public class CheckOutWindow extends JFrame implements LibWindow {
 
 			// Create a table model with predefined data
 
-			DefaultTableModel tableModel = getDefaultTableModel();
 
 			// Create a JTable with the table model
-			table = new JTable(tableModel);
-
+			table = new JTable();
+			refreshTable();
 			// Add the JTable to a scroll pane
 			JScrollPane scrollPane = new JScrollPane(table);
 
-			lowerPanel.add(scrollPane);
+			lowerPanel.add(table);
 
     	}
 
-	public static DefaultTableModel getDefaultTableModel() {
-		ControllerInterface ci = new SystemController();
-		List<CheckoutRecord> checkoutRecords = ci.allCheckoutRecords();
-
-		DefaultTableModel tableModel = new DefaultTableModel();
-		tableModel.addColumn("FirstName");
-		tableModel.addColumn("LastName");
-		tableModel.addColumn("Records");
-
-		// Populate the table model
-		for (CheckoutRecord object : checkoutRecords) {
-			tableModel.addRow(new Object[] {
-					object.getMember().getFirstName(),
-					object.getMember().getLastName(),
-					object.getCheckoutRecordId(),
-//						object.getCheckoutRecordEntryList().size()
-			});
-		}
-		return tableModel;
-	}
 
 
 	private void defineLeftTextPanel() {
@@ -241,7 +220,10 @@ public class CheckOutWindow extends JFrame implements LibWindow {
 		List<String> columns = new ArrayList<>();
 		columns.add("FirstName");
 		columns.add("LastName");
-		columns.add("Result");
+		columns.add("Checkout Date");
+		columns.add("Due Date");
+		columns.add("Book");
+		columns.add("ISBN");
 
 		Object[][] rows = TableUtil.getRowsCheckout(ci.allCheckoutRecords());
 

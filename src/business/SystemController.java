@@ -12,9 +12,9 @@ import validation.RuleException;
 
 public class SystemController implements ControllerInterface {
 	public static Auth currentAuth = null;
+	private DataAccess da = new DataAccessFacade();
 	
 	public void login(String id, String password) throws RuleException {
-		DataAccess da = new DataAccessFacade();
 		HashMap<String, User> map = da.readUserMap();
 		if(!map.containsKey(id)) {
 			throw new RuleException("ID " + id + " not found");
@@ -28,7 +28,6 @@ public class SystemController implements ControllerInterface {
 	}
 	@Override
 	public List<String> allMemberIds() {
-		DataAccess da = new DataAccessFacade();
 		List<String> retval = new ArrayList<>();
 		retval.addAll(da.readMemberMap().keySet());
 		return retval;
@@ -36,25 +35,29 @@ public class SystemController implements ControllerInterface {
 	
 	@Override
 	public List<String> allBookIds() {
-		DataAccess da = new DataAccessFacade();
 		List<String> retval = new ArrayList<>();
 		retval.addAll(da.readBooksMap().keySet());
 		return retval;
 	}
 
 	@Override
+	public HashMap<String, Book> allBooks() {
+		return da.readBooksMap();
+	}
+
+	@Override
 	public Book searchBookByISBN(String isbn) {
-		DataAccess da = new DataAccessFacade();
 		da.getBookByIsbn(isbn);
 		return da.getBookByIsbn(isbn);
 	}
 
 	@Override
 	public void addBookCopy(String isbn) {
-		DataAccess da = new DataAccessFacade();
 		HashMap<String, Book> bookList = da.readBooksMap();
 		Book book = bookList.get(isbn);
 		book.addCopy();
 		da.updateBook(book);
 	}
+
+
 }

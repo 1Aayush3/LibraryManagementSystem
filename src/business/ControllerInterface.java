@@ -1,5 +1,6 @@
 package business;
 
+import java.util.HashMap;
 import java.util.List;
 
 import business.Book;
@@ -11,7 +12,7 @@ public interface ControllerInterface {
 	public void login(String id, String password) throws RuleException;
 	public List<String> allMemberIds();
 	public List<String> allBookIds();
-
+	public HashMap<String, Book> allBooks();
 	public Book searchBookByISBN(String isbn);
 
 	public void addBookCopy(String isbn);

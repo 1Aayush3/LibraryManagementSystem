@@ -12,6 +12,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class AddBookCopy extends JFrame {
 
@@ -52,6 +53,20 @@ public class AddBookCopy extends JFrame {
 
         JPanel panel = new JPanel(new BorderLayout());
         panel.add(topPanel, BorderLayout.NORTH);
+
+
+        HashMap<String, Book> bookList = systemController.allBooks();
+
+
+        DefaultTableModel model = new DefaultTableModel(
+                new Object[][]{
+                        {"John", "Doe", 30},
+                        {"Jane", "Smith", 25},
+                        {"Bob", "Johnson", 40}
+                },
+                new Object[]{"First Name", "Last Name", "Age"}
+        );
+        bookList = new JTable(model);
         panel.add(new JScrollPane(bookList), BorderLayout.CENTER);
 
         add(panel);

@@ -11,12 +11,14 @@ import javax.swing.*;
 import java.awt.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import javax.swing.table.*;
 
 public class CheckOutWindow extends JFrame implements LibWindow {
     public static final CheckOutWindow INSTANCE = new CheckOutWindow();
+	private final SystemController ci;
 
 	private boolean isInitialized = false;
 
@@ -53,7 +55,9 @@ public class CheckOutWindow extends JFrame implements LibWindow {
 	}
 
 	/* This class is a singleton */
-    private CheckOutWindow() {}
+    private CheckOutWindow() {
+		ci = new SystemController();
+	}
     
     public void init() {     		
     		mainPanel = new JPanel();
@@ -173,6 +177,7 @@ public class CheckOutWindow extends JFrame implements LibWindow {
 		return tableModel;
 	}
 
+
 	private void defineLeftTextPanel() {
     		
 		JPanel topText = new JPanel();
@@ -232,7 +237,15 @@ public class CheckOutWindow extends JFrame implements LibWindow {
 	}
 
 	public void refreshTable() {
-		DefaultTableModel tableModel = getDefaultTableModel();
+
+		List<String> columns = new ArrayList<>();
+		columns.add("FirstName");
+		columns.add("LastName");
+		columns.add("Result");
+
+		Object[][] rows = TableUtil.getRowsCheckout(ci.allCheckoutRecords());
+
+		DefaultTableModel tableModel = TableUtil.getDefaultTableModel(columns, rows);
 
 		table.setModel(tableModel);
 		table.revalidate();

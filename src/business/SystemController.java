@@ -41,6 +41,13 @@ public class SystemController implements ControllerInterface {
 		retval.addAll(da.readBooksMap().keySet());
 		return retval;
 	}
-	
-	
+
+	@Override
+	public Book searchBookByISBN(String isbn) {
+		DataAccess da = new DataAccessFacade();
+		da.getBookByIsbn(isbn);
+		return da.getBookByIsbn(isbn);
+	}
+
+
 }

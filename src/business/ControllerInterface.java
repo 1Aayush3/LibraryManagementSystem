@@ -11,5 +11,6 @@ public interface ControllerInterface {
 	public void login(String id, String password) throws RuleException;
 	public List<String> allMemberIds();
 	public List<String> allBookIds();
-	
+
+	public Book searchBookByISBN(String isbn);
 }

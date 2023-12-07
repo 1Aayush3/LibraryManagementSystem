@@ -1,0 +1,282 @@
+package librarysystem;
+
+import business.*;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+public class AddLibraryMemberWindow extends JFrame implements LibWindow {
+
+    private JFrame frame;
+
+    private JTextField memberIdTextField;
+    private JTextField firstNameTextField;
+    private JTextField lastNameTextField;
+    private JTextField phoneNumberTextField;
+    private JTextField cityTextField;
+    private JTextField stateTextField;
+    private JTextField streetTextField;
+    private JTextField zipCodeTextField;
+
+    public static void main(String[] args) {
+        EventQueue.invokeLater(
+                () -> {
+                    try {
+                        AddLibraryMemberWindow window = new AddLibraryMemberWindow();
+                        window.init();
+//                        window.frame.setVisible(
+//                                true);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                });
+    }
+    @Override
+    public void init() {
+        frame = new JFrame("S.A.D Library System - Add Member");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setBounds(500, 100, 433, 550);
+        frame.getContentPane().setLayout(null);
+        frame.setVisible(true);
+
+        // Member ID
+        memberIdTextField = new JTextField();
+        memberIdTextField.setBounds(160, 26, 163, 26);
+        memberIdTextField.setEditable(false);
+        memberIdTextField.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+        frame.getContentPane().add(memberIdTextField);
+        memberIdTextField.setColumns(10);
+        memberIdTextField.setText(SystemController.generateNewMemberId());
+
+        JTextField memberIdLabel = new JTextField("Member ID #");
+        memberIdLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        memberIdLabel.setBounds(55, 26, 93, 26);
+        memberIdLabel.setEditable(false);
+        memberIdLabel.setBorder(null);
+        frame.getContentPane().add(memberIdLabel);
+
+        // Personal Details
+        JLabel personalDetailsLabel = new JLabel("Personal Details");
+        personalDetailsLabel.setFont(new Font("Lucida Grande", Font.PLAIN, 17));
+        personalDetailsLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        personalDetailsLabel.setBounds(152, 60, 127, 33);
+        frame.getContentPane().add(personalDetailsLabel);
+
+        // First Name
+        firstNameTextField = new JTextField();
+        firstNameTextField.setBounds(160, 102, 163, 26);
+        frame.getContentPane().add(firstNameTextField);
+        firstNameTextField.setColumns(10);
+
+        JLabel firstNameLabel = new JLabel("First Name:");
+        firstNameLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        firstNameLabel.setBounds(55, 102, 93, 16);
+        frame.getContentPane().add(firstNameLabel);
+
+        // Last Name
+        lastNameTextField = new JTextField();
+        lastNameTextField.setBounds(160, 140, 163, 26);
+        frame.getContentPane().add(lastNameTextField);
+        lastNameTextField.setColumns(10);
+
+        JLabel lastNameLabel = new JLabel("Last Name:");
+        lastNameLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        lastNameLabel.setBounds(65, 140, 83, 16);
+        frame.getContentPane().add(lastNameLabel);
+
+        // Phone Number
+        phoneNumberTextField = new JTextField();
+        phoneNumberTextField.setColumns(10);
+        phoneNumberTextField.setBounds(160, 178, 163, 26);
+        frame.getContentPane().add(phoneNumberTextField);
+
+        JLabel phoneNumberLabel = new JLabel("Phone Number:");
+        phoneNumberLabel.setBounds(55, 178, 100, 16);
+        frame.getContentPane().add(phoneNumberLabel);
+
+        // Address
+        JLabel addressLabel = new JLabel("ADDRESS");
+        addressLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        addressLabel.setFont(new Font("Lucida Grande", Font.PLAIN, 17));
+        addressLabel.setBounds(152, 222, 110, 33);
+        frame.getContentPane().add(addressLabel);
+
+        // City
+        cityTextField = new JTextField();
+        cityTextField.setColumns(10);
+        cityTextField.setBounds(160, 263, 163, 26);
+        frame.getContentPane().add(cityTextField);
+
+        JLabel cityLabel = new JLabel("City:");
+        cityLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        cityLabel.setBounds(65, 263, 93, 16);
+        frame.getContentPane().add(cityLabel);
+
+        // State
+        stateTextField = new JTextField();
+        stateTextField.setColumns(10);
+        stateTextField.setBounds(160, 301, 163, 26);
+        frame.getContentPane().add(stateTextField);
+
+        JLabel stateLabel = new JLabel("State:");
+        stateLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        stateLabel.setBounds(65, 301, 93, 16);
+        frame.getContentPane().add(stateLabel);
+
+        // Street
+        streetTextField = new JTextField();
+        streetTextField.setColumns(10);
+        streetTextField.setBounds(160, 339, 163, 26);
+        frame.getContentPane().add(streetTextField);
+
+        JLabel streetLabel = new JLabel("Street:");
+        streetLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        streetLabel.setBounds(65, 339, 93, 16);
+        frame.getContentPane().add(streetLabel);
+
+        // Zip Code
+        zipCodeTextField = new JTextField();
+        zipCodeTextField.setColumns(10);
+        zipCodeTextField.setBounds(160, 377, 163, 26);
+        frame.getContentPane().add(zipCodeTextField);
+
+        JLabel zipCodeLabel = new JLabel("Zip Code:");
+        zipCodeLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        zipCodeLabel.setBounds(65, 377, 93, 16);
+        frame.getContentPane().add(zipCodeLabel);
+
+        // Add Member Button
+        JButton addMemberButton = new JButton("Add Member");
+        addMemberButton.setBounds(141, 430, 138, 38);
+        addMemberButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                new SystemController().addLibraryMember(
+                        new LibraryMember(
+                            memberIdTextField.getText(),
+                            firstNameTextField.getText().trim(),
+                            lastNameTextField.getText().trim(),
+                            phoneNumberTextField.getText().trim(),
+                            new Address(
+                                    streetTextField.getText().trim(),
+                                    cityTextField.getText().trim(),
+                                    stateTextField.getText().trim(),
+                                    zipCodeTextField.getText().trim()
+                            )
+                        )
+                );
+            }
+        });
+        frame.getContentPane().add(addMemberButton);
+        frame.setResizable(false);
+    }
+
+
+//        private void addMember() {
+//        if (!inputsAreValid()) {
+//            return;
+//        }
+//        final var addedMember = LibrarySystemFacade.addLibraryMember(
+//                operation,
+//                firstNameTextField.getText().trim(),
+//                lastNameTextField.getText().trim(),
+//                streetTextField.getText().trim(),
+//                cityTextField.getText().trim(),
+//                stateTextField.getText().trim(),
+//                zipCodeTextField.getText().trim(),
+//                phoneNumberTextField.getText().trim());
+//        JOptionPane.showMessageDialog(
+//                frame,
+//                String.format(
+//                        """
+//                                New member has been created:
+//                                Id: %s
+//                                First Name: %s
+//                                Last Name: %s
+//                                Phone Number: %s
+//                                City: %s
+//                                State: %s
+//                                Street: %s
+//                                Zip code: %s""",
+//                        addedMember.getMemberId(),
+//                        addedMember.getFirstName(),
+//                        addedMember.getLastName(),
+//                        addedMember.getPhoneNumber(),
+//                        addedMember.getAddress().getCity(),
+//                        addedMember.getAddress().getState(),
+//                        addedMember.getAddress().getStreet(),
+//                        addedMember.getAddress().getZip()));
+//        clear();
+//
+//    }
+
+    private void clear() {
+
+        final JTextField[] textFields = {
+                firstNameTextField,
+                lastNameTextField,
+                streetTextField,
+                cityTextField,
+                stateTextField,
+                zipCodeTextField,
+                phoneNumberTextField,};
+
+        for (final var textField : textFields) {
+            textField.setText(
+                    "");
+        }
+
+    }
+
+    @Override
+    public boolean isInitialized() {
+        return false;
+    }
+
+    @Override
+    public void isInitialized(boolean val) {
+
+    }
+
+    @Override
+    public void setVisible(boolean b) {
+
+    }
+
+//    private boolean inputsAreValid() {
+//        final String[] values = {
+//                firstNameTextField.getText(),
+//                lastNameTextField.getText(),
+//                phoneNumberTextField.getText(),
+//                cityTextField.getText(),
+//                stateTextField.getText(),
+//                streetTextField.getText(),
+//                zipCodeTextField.getText(),};
+//
+//        if(
+//                !new EmptyStringValidator().areValuesValid(
+//                    Arrays.asList(values)
+//                )
+//        ){
+//            JOptionPane.showMessageDialog(
+//                    frame,
+//                    "Fill in all the inputs correctly!");
+//            return false;
+//        }
+//        if(!new NumericInputValidator().areValuesValid(Collections.singletonList(phoneNumberTextField.getText()))){
+//            JOptionPane.showMessageDialog(
+//                    frame,
+//                    "Enter a phone number as a numeric value, without symbols!");
+//            return false;
+//        }
+//        if(!new NumericInputValidator().areValuesValid(Collections.singletonList(zipCodeTextField.getText()))){
+//            JOptionPane.showMessageDialog(
+//                    frame,
+//                    "Enter a zip code as a numeric value, without symbols!");
+//            return false;
+//        }
+//        return  true;
+//    }
+}

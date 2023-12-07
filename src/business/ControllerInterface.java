@@ -1,5 +1,6 @@
 package business;
 
+import java.lang.reflect.Member;
 import java.util.List;
 
 import business.Book;
@@ -9,6 +10,7 @@ import validation.RuleException;
 
 public interface ControllerInterface {
 	public void login(String id, String password) throws RuleException;
+	public void addLibraryMember(LibraryMember member);
 	public List<String> allMemberIds();
 	public List<String> allBookIds();
 

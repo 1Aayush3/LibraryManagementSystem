@@ -4,6 +4,7 @@ import business.SystemController;
 
 import javax.swing.*;
 import javax.swing.border.Border;
+import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.MouseEvent;
@@ -31,14 +32,22 @@ public class Dashboard extends JFrame {
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
 
         JPanel topPanel = new JPanel();
-        topPanel.add(new JLabel("Library Management System"));
+        JLabel title = new JLabel("Library Management System");
+        title.setFont(new Font(title.getFont().getFontName(), Font.BOLD, 20));
+        topPanel.add(title);
 
         createInfoPanel();
 
         createTable();
 
         JPanel tableLabel = new JPanel(new BorderLayout());
-        tableLabel.add(new JLabel("Checked out books with due date today!"));
+        JLabel checkoutBooks = new JLabel("Checked out books with due date today!");
+        checkoutBooks.setFont(new Font(checkoutBooks.getFont().getFontName(), Font.BOLD, checkoutBooks.getFont().getSize()));
+
+        tableLabel.add(checkoutBooks);
+        tableLabel.setBorder(new EmptyBorder(0,40,0,20));
+
+        lowerPanel.setBorder(new EmptyBorder(0,10,0,10));
 
         mainPanel.add(topPanel);
         mainPanel.add(infoPanel);
@@ -47,6 +56,7 @@ public class Dashboard extends JFrame {
 
         // Set the main panel as the content pane
         add(mainPanel);
+
         setVisible(true);
 
     }
@@ -71,7 +81,7 @@ public class Dashboard extends JFrame {
 
         // Create a JTable with the table model
         table = new JTable(tableModel);
-        table.setPreferredScrollableViewportSize(new Dimension(600,300));
+        table.setPreferredScrollableViewportSize(new Dimension(570,280));
         // Add the JTable to a scroll pane
         JScrollPane scrollPane = new JScrollPane(table);
 
@@ -124,11 +134,11 @@ public class Dashboard extends JFrame {
 
         JLabel titleLabel = new JLabel(title);
         titleLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-        titleLabel.setFont(new Font("Arial", Font.BOLD, 13));
+        titleLabel.setFont(new Font(titleLabel.getFont().getFontName(), Font.BOLD, 13));
 
         JLabel numberLabel = new JLabel(number);
         numberLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-        numberLabel.setFont(new Font("Arial", Font.PLAIN, 18));
+        numberLabel.setFont(new Font(numberLabel.getFont().getFontName(), Font.PLAIN, 18));
 
         boxPanel.add(Box.createVerticalStrut(10)); // Add some vertical spacing
         boxPanel.add(titleLabel);
@@ -137,8 +147,8 @@ public class Dashboard extends JFrame {
 
         // Optional: Add border for visual separation
         boxPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-        boxPanel.setPreferredSize(new Dimension(180,60));
-        boxPanel.setBackground(new Color(173, 216, 230));
+        boxPanel.setPreferredSize(new Dimension(180,65));
+        boxPanel.setBackground(new Color(224, 224, 224));
         return boxPanel;
     }
 

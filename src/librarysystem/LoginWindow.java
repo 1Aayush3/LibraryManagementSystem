@@ -81,7 +81,7 @@ public class LoginWindow extends JFrame implements LibWindow {
     		isInitialized(true);
     		pack();
     		//setSize(660, 500);
-
+			setVisible(true);
     	
     }
     private void defineUpperHalf() {
@@ -207,12 +207,8 @@ public class LoginWindow extends JFrame implements LibWindow {
 
 					// If no exception is thrown, consider it a successful login
 					JOptionPane.showMessageDialog(this, "Successful Login");
-
-//todo: close login form and redirect to Dashboard
 					this.setVisible(false);
-					AllBookIdsWindow.INSTANCE.setVisible(true);
-					AllBookIdsWindow.INSTANCE.init();
-
+					Dashboard.INSTANCE.init();
                 } catch (RuleException e) {
 					JOptionPane.showMessageDialog(this,e.getMessage());
                 }

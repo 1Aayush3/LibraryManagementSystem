@@ -1,6 +1,8 @@
 package librarysystem;
 
+import business.LibraryMember;
 import business.SystemController;
+import dataaccess.Auth;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -102,7 +104,70 @@ public class Dashboard extends JFrame {
 
             @Override
             public void mousePressed(MouseEvent e) {
+                if(SystemController.currentAuth == Auth.ADMIN || SystemController.currentAuth == Auth.BOTH){
+                    Dashboard.INSTANCE.setVisible(false);
+                    AddLibraryMemberWindow.INSTANCE.init();
+                }
+            }
 
+            @Override
+            public void mouseReleased(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+
+            }
+        });
+
+        boxPanel2.addMouseListener(new MouseListener() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+                if(SystemController.currentAuth == Auth.ADMIN || SystemController.currentAuth == Auth.BOTH) {
+                    Dashboard.INSTANCE.setVisible(false);
+                    AddBookCopy.INSTANCE.init();
+                }
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+
+            }
+        });
+
+        boxPanel3.addMouseListener(new MouseListener() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+                if(SystemController.currentAuth == Auth.LIBRARIAN || SystemController.currentAuth == Auth.BOTH) {
+                    Dashboard.INSTANCE.setVisible(false);
+                    CheckOutWindow.INSTANCE.init();
+                }
             }
 
             @Override

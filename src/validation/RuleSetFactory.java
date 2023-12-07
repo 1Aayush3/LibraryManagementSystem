@@ -1,5 +1,6 @@
 package validation;
 import librarysystem.CheckOutWindow;
+import librarysystem.AddLibraryMemberWindow;
 import librarysystem.LoginWindow;
 
 import java.awt.Component;
@@ -11,6 +12,7 @@ final public class RuleSetFactory {
     static {
         map.put(LoginWindow.class, new LoginRuleSet());
         map.put(CheckOutWindow.class, new CheckoutRuleSet());
+        map.put(AddLibraryMemberWindow.class, new AddMemberRuleSet());
     }
     public static RuleSet getRuleSet(Component c) {
         Class<? extends Component> cl = c.getClass();

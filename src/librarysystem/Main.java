@@ -20,7 +20,7 @@ public class Main {
 //	            centerFrameOnDesktop(LibrarySystem.INSTANCE);
 //	            LibrarySystem.INSTANCE.setVisible(true);
 
-				 AddBookCopy.INSTANCE.init();
+				 Dashboard.INSTANCE.init();
 
 	         });
 	   }

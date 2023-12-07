@@ -10,12 +10,15 @@ final public class User implements Serializable {
 	
 	private String password;
 	private Auth authorization;
-	User(String id, String pass, Auth  auth) {
+	private String name;
+	User(String id, String pass, Auth  auth, String name) {
+		this.name = name;
 		this.id = id;
 		this.password = pass;
 		this.authorization = auth;
 	}
-	
+
+	public String getName(){return name;}
 	public String getId() {
 		return id;
 	}

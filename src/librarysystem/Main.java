@@ -16,7 +16,7 @@ public class Main {
 	            LibrarySystem.INSTANCE.setTitle("Sample Library Application");
 	            LibrarySystem.INSTANCE.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-				 Dashboard.INSTANCE.init();
+				Dashboard.INSTANCE.init();
 
 	         });
 	   }

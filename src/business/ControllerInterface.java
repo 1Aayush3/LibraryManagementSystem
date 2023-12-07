@@ -13,4 +13,6 @@ public interface ControllerInterface {
 	public List<String> allBookIds();
 
 	public Book searchBookByISBN(String isbn);
+
+	public void addBookCopy(String isbn);
 }

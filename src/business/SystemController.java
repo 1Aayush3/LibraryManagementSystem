@@ -49,5 +49,12 @@ public class SystemController implements ControllerInterface {
 		return da.getBookByIsbn(isbn);
 	}
 
-
+	@Override
+	public void addBookCopy(String isbn) {
+		DataAccess da = new DataAccessFacade();
+		HashMap<String, Book> bookList = da.readBooksMap();
+		Book book = bookList.get(isbn);
+		book.addCopy();
+		da.updateBook(book);
+	}
 }

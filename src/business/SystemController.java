@@ -1,9 +1,7 @@
 package business;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 import dataaccess.Auth;
 import dataaccess.DataAccess;
@@ -70,6 +68,14 @@ public class SystemController implements ControllerInterface {
 		retval.addAll(da.readCheckoutRecordMap().values());
 		return retval;
 	}
+	@Override
+	public List<CheckoutRecord> filteredCheckoutRecords(LocalDate date, Integer limit){
+		DataAccess da = new DataAccessFacade();
+		List<CheckoutRecord> retval = new ArrayList<>();
+		retval.addAll(da.readCheckoutRecordMap().values());
+		Collections.sort(retval, Comparator.comparing(o -> o.getCheckoutRecordEntryList().get(0).getDueDate()));
+		return limit == null? retval : retval.subList(0,limit);
+	}
 
 
 	public void checkoutBook(String memberId, String bookISBN) throws RuleException {
@@ -93,6 +99,7 @@ public class SystemController implements ControllerInterface {
 		da.saveCheckoutRecord(new CheckoutRecord(""+ Util.randomId(),mbrs.get(memberId),checkoutRecordEntries));
 
 		availableCopy.changeAvailability();
-
+		availableCopy.getBook().updateCopies(availableCopy);
+		da.updateBook(availableCopy.getBook());
 	}
 }

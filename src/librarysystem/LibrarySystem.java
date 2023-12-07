@@ -176,7 +176,7 @@ public class LibrarySystem extends JFrame implements LibWindow {
 			CheckOutWindow.INSTANCE.init();
 
 			CheckOutWindow.INSTANCE.pack();
-			//AllMemberIdsWindow.INSTANCE.setSize(660,500);
+			CheckOutWindow.INSTANCE.setSize(660,500);
 			Util.centerFrameOnDesktop(CheckOutWindow.INSTANCE);
 			CheckOutWindow.INSTANCE.setVisible(true);
 		}

@@ -1,5 +1,6 @@
 package business;
 
+import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
 
@@ -17,6 +18,7 @@ public interface ControllerInterface {
 
 	public void addBookCopy(String isbn);
 	public List<CheckoutRecord> allCheckoutRecords();
+	public List<CheckoutRecord> filteredCheckoutRecords(LocalDate date, Integer limit);
 
 	public void checkoutBook(String memberId, String bookISBN) throws RuleException;
 

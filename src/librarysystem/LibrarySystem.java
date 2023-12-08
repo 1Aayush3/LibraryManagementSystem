@@ -1,6 +1,5 @@
 package librarysystem;
 
-import java.lang.management.ManagementFactory;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -26,15 +25,16 @@ public class LibrarySystem extends JFrame implements LibWindow {
 	JPanel mainPanel;
 	JMenuBar menuBar;
     JMenu options;
-    JMenuItem login, allBookIds, allMemberIds; 
+    JMenuItem login, allBookIds, allMemberIds, checkout;
     String pathToImage;
     private boolean isInitialized = false;
     
     private static LibWindow[] allWindows = { 
     	LibrarySystem.INSTANCE,
 		LoginWindow.INSTANCE,
-		AllMemberIdsWindow.INSTANCE,	
-		AllBookIdsWindow.INSTANCE
+		AllMemberIdsWindow.INSTANCE,
+			AllBookIdsWindow.INSTANCE,
+			CheckOutWindow.INSTANCE
 	};
     	
 	public static void hideAllWindows() {		
@@ -94,9 +94,12 @@ public class LibrarySystem extends JFrame implements LibWindow {
  	   allBookIds.addActionListener(new AllBookIdsListener());
  	   allMemberIds = new JMenuItem("All Member Ids");
  	   allMemberIds.addActionListener(new AllMemberIdsListener());
+		checkout = new JMenuItem("Checkout");
+		checkout.addActionListener(new CheckoutListener());
  	   options.add(login);
  	   options.add(allBookIds);
- 	   options.add(allMemberIds);
+		options.add(allMemberIds);
+		options.add(checkout);
     }
     
     class LoginListener implements ActionListener {
@@ -134,20 +137,20 @@ public class LibrarySystem extends JFrame implements LibWindow {
 		}
     	
     }
-    
-    class AllMemberIdsListener implements ActionListener {
 
-    	@Override
+	class AllMemberIdsListener implements ActionListener {
+
+		@Override
 		public void actionPerformed(ActionEvent e) {
 			LibrarySystem.hideAllWindows();
 			AllMemberIdsWindow.INSTANCE.init();
 			AllMemberIdsWindow.INSTANCE.pack();
 			AllMemberIdsWindow.INSTANCE.setVisible(true);
-			
-			
+
+
 			LibrarySystem.hideAllWindows();
 			AllBookIdsWindow.INSTANCE.init();
-			
+
 			List<String> ids = ci.allMemberIds();
 			Collections.sort(ids);
 			StringBuilder sb = new StringBuilder();
@@ -160,11 +163,25 @@ public class LibrarySystem extends JFrame implements LibWindow {
 			//AllMemberIdsWindow.INSTANCE.setSize(660,500);
 			Util.centerFrameOnDesktop(AllMemberIdsWindow.INSTANCE);
 			AllMemberIdsWindow.INSTANCE.setVisible(true);
-			
-			
+
+
 		}
-    	
-    }
+
+	}
+	class CheckoutListener implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			LibrarySystem.hideAllWindows();
+			CheckOutWindow.INSTANCE.init();
+
+			CheckOutWindow.INSTANCE.pack();
+			CheckOutWindow.INSTANCE.setSize(660,500);
+			Util.centerFrameOnDesktop(CheckOutWindow.INSTANCE);
+			CheckOutWindow.INSTANCE.setVisible(true);
+		}
+
+	}
 
 	@Override
 	public boolean isInitialized() {

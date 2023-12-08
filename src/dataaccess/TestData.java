@@ -1,6 +1,7 @@
 package dataaccess;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -36,16 +37,12 @@ public class TestData {
 		List<CheckoutRecord> checkoutRecords = new ArrayList<>();
 
 		List<CheckoutRecordEntry> checkoutRecordEntries = new ArrayList<>();
-		checkoutRecordEntries.add(new CheckoutRecordEntry(LocalDate.now(),LocalDate.now(),allBooks.get(0).getCopy(0)));
-		checkoutRecordEntries.add(new CheckoutRecordEntry(LocalDate.now(),LocalDate.now(),allBooks.get(1).getCopy(1)));
-		checkoutRecordEntries.add(new CheckoutRecordEntry(LocalDate.now(),LocalDate.now(),allBooks.get(2).getCopy(0)));
-		checkoutRecords.add(new CheckoutRecord("",members.get(0),checkoutRecordEntries));
+		checkoutRecordEntries.add(new CheckoutRecordEntry(LocalDateTime.now(),LocalDateTime.now(),allBooks.get(0).getNextAvailableCopy()));
+		checkoutRecords.add(new CheckoutRecord("a",members.get(2),checkoutRecordEntries));
 
-		checkoutRecordEntries = new ArrayList<>();
-		checkoutRecordEntries.add(new CheckoutRecordEntry(LocalDate.now(),LocalDate.now(),allBooks.get(0).getCopy(0)));
-		checkoutRecordEntries.add(new CheckoutRecordEntry(LocalDate.now(),LocalDate.now(),allBooks.get(1).getCopy(1)));
-		checkoutRecordEntries.add(new CheckoutRecordEntry(LocalDate.now(),LocalDate.now(),allBooks.get(2).getCopy(0)));
-		checkoutRecords.add(new CheckoutRecord("",members.get(1),checkoutRecordEntries));
+		List<CheckoutRecordEntry> checkoutRecordEntries2 = new ArrayList<>();
+		checkoutRecordEntries2.add(new CheckoutRecordEntry(LocalDateTime.now(),LocalDateTime.now(),allBooks.get(0).getNextAvailableCopy()));
+		checkoutRecords.add(new CheckoutRecord("b",members.get(1),checkoutRecordEntries2));
 
 
 		DataAccessFacade.loadCheckoutRecordMap(checkoutRecords);
@@ -122,9 +119,9 @@ public class TestData {
 	@SuppressWarnings("serial")
 	List<User> allUsers = new ArrayList<User>() {
 		{
-			add(new User("101", "xyz", Auth.LIBRARIAN));
-			add(new User("102", "abc", Auth.ADMIN));
-			add(new User("103", "111", Auth.BOTH));
+			add(new User("101", "xyz", Auth.LIBRARIAN, "Sudin"));
+			add(new User("102", "abc", Auth.ADMIN, "Dawit"));
+			add(new User("103", "111", Auth.BOTH, "Aayush"));
 		}
 	};
 }

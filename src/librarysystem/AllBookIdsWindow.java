@@ -77,7 +77,7 @@ public class AllBookIdsWindow extends JFrame implements LibWindow {
 		@Override
 		public void actionPerformed(ActionEvent evt) {
 			LibrarySystem.hideAllWindows();
-			LibrarySystem.INSTANCE.setVisible(true);
+			Dashboard.INSTANCE.setVisible(true);
     		
 		}
 	}

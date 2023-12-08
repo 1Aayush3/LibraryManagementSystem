@@ -15,10 +15,8 @@ public class Main {
 	         {
 	            LibrarySystem.INSTANCE.setTitle("Sample Library Application");
 	            LibrarySystem.INSTANCE.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	            
-	            LibrarySystem.INSTANCE.init();
-	            centerFrameOnDesktop(LibrarySystem.INSTANCE);
-	            LibrarySystem.INSTANCE.setVisible(true);
+				LoginWindow.INSTANCE.init();
+
 	         });
 	   }
 	   

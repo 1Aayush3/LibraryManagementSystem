@@ -137,12 +137,13 @@ public class Dashboard extends JFrame {
 
             @Override
             public void mouseEntered(MouseEvent e) {
-
+                boxPanel1.setCursor(new Cursor(Cursor.HAND_CURSOR));
+                boxPanel1.setBackground(new Color(192, 192, 192));
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
-
+                boxPanel1.setBackground(new Color(224, 224, 224));
             }
         });
 
@@ -167,11 +168,13 @@ public class Dashboard extends JFrame {
 
             @Override
             public void mouseEntered(MouseEvent e) {
-
+                boxPanel2.setCursor(new Cursor(Cursor.HAND_CURSOR));
+                boxPanel2.setBackground(new Color(192, 192, 192));
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
+                boxPanel2.setBackground(new Color(224, 224, 224));
 
             }
         });
@@ -198,11 +201,14 @@ public class Dashboard extends JFrame {
 
             @Override
             public void mouseEntered(MouseEvent e) {
-
+                boxPanel3.setCursor(new Cursor(Cursor.HAND_CURSOR));
+                boxPanel3.setBackground(new Color(192, 192, 192));
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
+                boxPanel3.setBackground(new Color(224, 224, 224));
+
 
             }
         });

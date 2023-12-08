@@ -61,25 +61,17 @@ public class AddLibraryMemberWindow extends JFrame implements LibWindow {
     private JTextField streetTextField;
     private JTextField zipCodeTextField;
 
+    private boolean isInitialized = false;
+
     private  AddLibraryMemberWindow(){}
 
-    public static void main(String[] args) {
-        EventQueue.invokeLater(
-                () -> {
-                    try {
-                        AddLibraryMemberWindow window = new AddLibraryMemberWindow();
-                        window.init();
-//                        window.frame.setVisible(
-//                                true);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                });
-    }
     @Override
     public void init() {
+
+        isInitialized(true);
+
         frame = new JFrame("S.A.D Library System - Add Member");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.setBounds(500, 100, 433, 550);
         frame.getContentPane().setLayout(null);
         frame.setVisible(true);
@@ -203,25 +195,29 @@ public class AddLibraryMemberWindow extends JFrame implements LibWindow {
             RuleSet rules = RuleSetFactory.getRuleSet(this);
             try{
                 rules.applyRules(this);
-                new SystemController().addLibraryMember(
-                        new LibraryMember(
-                                memberIdTextField.getText(),
-                                firstNameTextField.getText().trim(),
-                                lastNameTextField.getText().trim(),
-                                phoneNumberTextField.getText().trim(),
-                                new Address(
-                                        streetTextField.getText().trim(),
-                                        cityTextField.getText().trim(),
-                                        stateTextField.getText().trim(),
-                                        zipCodeTextField.getText().trim()
-                                )
-                        )
-                );
             }
             catch (RuleException e) {
                 JOptionPane.showMessageDialog(this,e.getMessage());
             }
         });
+    }
+
+    public void saveMember() {
+        new SystemController().addLibraryMember(
+                new LibraryMember(
+                        memberIdTextField.getText(),
+                        firstNameTextField.getText().trim(),
+                        lastNameTextField.getText().trim(),
+                        phoneNumberTextField.getText().trim(),
+                        new Address(
+                                streetTextField.getText().trim(),
+                                cityTextField.getText().trim(),
+                                stateTextField.getText().trim(),
+                                zipCodeTextField.getText().trim()
+                        )
+                )
+        );
+        this.setVisible(false);
     }
 
 
@@ -245,11 +241,13 @@ public class AddLibraryMemberWindow extends JFrame implements LibWindow {
 
     @Override
     public boolean isInitialized() {
-        return false;
+        return isInitialized;
     }
 
     @Override
     public void isInitialized(boolean val) {
+
+        isInitialized = val;
 
     }
 

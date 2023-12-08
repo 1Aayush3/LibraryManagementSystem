@@ -40,6 +40,12 @@ public class SystemController implements ControllerInterface {
 	}
 
 	@Override
+	public HashMap<String, LibraryMember> allMembers() {
+		List<String> retval = new ArrayList<>();
+		return da.readMemberMap();
+	}
+
+	@Override
 	public List<String> allMemberIds() {
 		List<String> retval = new ArrayList<>();
 		retval.addAll(da.readMemberMap().keySet());

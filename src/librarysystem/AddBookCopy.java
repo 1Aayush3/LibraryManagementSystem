@@ -82,7 +82,7 @@ public class AddBookCopy extends JFrame {
     private void addBackButtonListener(JButton butn) {
         butn.addActionListener(evt -> {
             AddBookCopy.INSTANCE.setVisible(false);
-            Dashboard.INSTANCE.setVisible(true);
+            Dashboard.INSTANCE.init();
         });
     }
     private void actionListeners() {

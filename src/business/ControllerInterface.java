@@ -15,6 +15,7 @@ public interface ControllerInterface {
 	public void login(String id, String password) throws RuleException;
 	public void addLibraryMember(LibraryMember member);
 	public List<String> allMemberIds();
+	public HashMap<String, LibraryMember> allMembers();
 	public List<String> allBookIds();
 	public HashMap<String, Book> allBooks();
 	public Book searchBookByISBN(String isbn);

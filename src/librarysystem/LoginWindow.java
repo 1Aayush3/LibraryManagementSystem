@@ -189,13 +189,7 @@ public class LoginWindow extends JFrame implements LibWindow {
     		rightTextPanel.add(topText,BorderLayout.NORTH);
     		rightTextPanel.add(bottomText,BorderLayout.CENTER);
     	}
-    	
-    	private void addBackButtonListener(JButton butn) {
-    		butn.addActionListener(evt -> {
-    			LibrarySystem.hideAllWindows();
-    			LibrarySystem.INSTANCE.setVisible(true);
-    		});
-    	}
+
     	
     	private void addLoginButtonListener(JButton butn) {
     		butn.addActionListener(evt -> {

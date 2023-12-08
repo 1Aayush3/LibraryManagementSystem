@@ -1,9 +1,6 @@
 package librarysystem;
 
-import business.Book;
-import business.CheckoutRecord;
-import business.ControllerInterface;
-import business.SystemController;
+import business.*;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -69,6 +66,22 @@ public class TableUtil {
         return models;
     }
 
+    public static Object[][] getRowsMembers(HashMap<String, LibraryMember> objects) {
+        Object[][] models = new Object[objects.size()][];
+        // Populate the table model
+        for (int i =0;i<objects.size();i++) {
+            String key = (String)objects.keySet().toArray()[i];
+            LibraryMember object =  objects.get(key);
+            models[i] = new Object[] {
+                    object.getMemberId(),
+                    object.getFirstName() + "" + object.getLastName(),
+                    object.getTelephone(),
+                    object.getAddress(),
+            };
+        }
+        return models;
+    }
+
     public static List<String> getColumnsCheckout() {
         List<String> columns = new ArrayList<>();
         columns.add("Full Name");
@@ -78,4 +91,13 @@ public class TableUtil {
         columns.add("Due Date");
         return columns;
     }
+    public static List<String> getColumnsMembers() {
+        List<String> columns = new ArrayList<>();
+        columns.add("Member Id");
+        columns.add("Full Name");
+        columns.add("Telephone");
+        columns.add("Address");
+        return columns;
+    }
+
 }

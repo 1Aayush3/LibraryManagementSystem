@@ -16,6 +16,7 @@ public interface ControllerInterface {
 	public void addLibraryMember(LibraryMember member);
 	public List<String> allMemberIds();
 	public HashMap<String, LibraryMember> allMembers();
+    public void addBook(Book book);
 	public List<String> allBookIds();
 	public HashMap<String, Book> allBooks();
 	public Book searchBookByISBN(String isbn);
@@ -26,9 +27,13 @@ public interface ControllerInterface {
 
 	public void checkoutBook(String memberId, String bookISBN) throws RuleException;
 
-	String getTotalLibraryMemberss();
+    List<Author> getAllAuthors();
+
+    String getTotalLibraryMemberss();
 
 	String getTotalCheckedOut();
 
 	String getTotalBooks();
+
+	String getStringBetweenBrackets(String selectedItem);
 }

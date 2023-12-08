@@ -1,5 +1,6 @@
 package validation;
 import librarysystem.AddBookCopy;
+import librarysystem.AddBookWindow;
 import librarysystem.CheckOutWindow;
 import librarysystem.AddLibraryMemberWindow;
 import librarysystem.LoginWindow;
@@ -15,6 +16,7 @@ final public class RuleSetFactory {
         map.put(CheckOutWindow.class, new CheckoutRuleSet());
         map.put(AddLibraryMemberWindow.class, new AddMemberRuleSet());
         map.put(AddBookCopy.class, new AddBookCopyRuleSet());
+        map.put(AddBookWindow.class, new AddBookRuleSet());
     }
     public static RuleSet getRuleSet(Component c) {
         Class<? extends Component> cl = c.getClass();

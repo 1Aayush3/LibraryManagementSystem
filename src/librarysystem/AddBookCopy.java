@@ -2,6 +2,9 @@ package librarysystem;
 
 import business.Book;
 import business.SystemController;
+import validation.RuleException;
+import validation.RuleSet;
+import validation.RuleSetFactory;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -69,8 +72,6 @@ public class AddBookCopy extends JFrame {
         title.setHorizontalAlignment(SwingConstants.CENTER);
         title.setFont(new Font(title.getFont().getFontName(), Font.BOLD, 20));
         titlePanel.add(title);
-
-
     }
 
     void isInitialized(){
@@ -163,11 +164,21 @@ public class AddBookCopy extends JFrame {
         panel.add(titleAndTopPanel, BorderLayout.NORTH);
     }
 
+    public String getIsbn(){
+        return this.isbn;
+    }
 
     private void performSearch() {
         isbn = searchField.getText();
-
         Book book = systemController.searchBookByISBN(isbn);
+        RuleSet rules = RuleSetFactory.getRuleSet(this);
+        try{
+            rules.applyRules(this);
+        }catch(RuleException e){
+            searchResult.setText(e.getMessage());
+            addBookCopy.setVisible(false);
+            return;
+        }
 
         if(book != null){
             searchResult.setText("The Book Title is: " + book.getTitle());
@@ -176,9 +187,5 @@ public class AddBookCopy extends JFrame {
             searchResult.setText("Sorry No data found, Please try again");
             addBookCopy.setVisible(false);
         }
-
     }
-
-
-
 }

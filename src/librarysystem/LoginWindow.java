@@ -199,8 +199,8 @@ public class LoginWindow extends JFrame implements LibWindow {
     	
     	private void addLoginButtonListener(JButton butn) {
     		butn.addActionListener(evt -> {
-				RuleSet rules = RuleSetFactory.getRuleSet(this);
 
+				RuleSet rules = RuleSetFactory.getRuleSet(this);
 				SystemController loginController = new SystemController();
                 try {
 					rules.applyRules(this);

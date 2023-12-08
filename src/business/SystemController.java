@@ -31,7 +31,6 @@ public class SystemController implements ControllerInterface {
 			throw new RuleException("Password incorrect");
 		}
 		currentAuth = map.get(id).getAuthorization();
-		
 	}
 
 	@Override

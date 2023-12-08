@@ -1,23 +1,17 @@
 package librarysystem;
 
-import business.*;
-import dataaccess.DataAccess;
-import dataaccess.DataAccessFacade;
+import business.SystemController;
 import validation.RuleException;
 import validation.RuleSet;
 import validation.RuleSetFactory;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 import java.awt.*;
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
-import javax.swing.table.*;
 
-public class CheckOutWindow extends JFrame implements LibWindow {
-    public static final CheckOutWindow INSTANCE = new CheckOutWindow();
+public class LibraryMemberListWindow extends JFrame implements LibWindow {
+    public static final LibraryMemberListWindow INSTANCE = new LibraryMemberListWindow();
 	private final SystemController ci;
 
 	private boolean isInitialized = false;
@@ -40,7 +34,7 @@ public class CheckOutWindow extends JFrame implements LibWindow {
 	private JButton loginButton;
 	private JButton logoutButton;
 	public JTable table;
-	private JButton checkoutButton;
+	private JButton addMemberButton;
 
 
 	public boolean isInitialized() {
@@ -55,13 +49,13 @@ public class CheckOutWindow extends JFrame implements LibWindow {
 	}
 
 	/* This class is a singleton */
-    private CheckOutWindow() {
+    private LibraryMemberListWindow() {
 		ci = new SystemController();
 	}
     
     public void init() {
 			if(this.isInitialized){
-				CheckOutWindow.INSTANCE.setVisible(true);
+				LibraryMemberListWindow.INSTANCE.setVisible(true);
 				refreshTable();
 				return;
 			}
@@ -85,7 +79,7 @@ public class CheckOutWindow extends JFrame implements LibWindow {
 			setSize(800, 600);
 			setMaximumSize(new Dimension(800, 600));
 			setMinimumSize(new Dimension(800, 600));
-			Util.centerFrameOnDesktop(CheckOutWindow.INSTANCE);
+			Util.centerFrameOnDesktop(LibraryMemberListWindow.INSTANCE);
 			setVisible(true);
 
     	
@@ -127,7 +121,7 @@ public class CheckOutWindow extends JFrame implements LibWindow {
     		topPanel = new JPanel();
     		topPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
 
-			JLabel title = new JLabel("Library Management System - Checkout");
+			JLabel title = new JLabel("Library Management System - Members");
 			title.setFont(new Font(title.getFont().getFontName(), Font.BOLD, 20));
     		topPanel.add(title);
 
@@ -145,9 +139,9 @@ public class CheckOutWindow extends JFrame implements LibWindow {
     		middlePanel.add(rightTextPanel);
 
 
-			checkoutButton = new JButton("Checkout");
-			addCheckoutButtonListener(checkoutButton);
-			middlePanel.add(checkoutButton);
+			addMemberButton = new JButton("Add Member");
+			addMemberButtonListener(addMemberButton);
+			middlePanel.add(addMemberButton);
 
 		}
     	private void defineLowerPanel() {
@@ -206,20 +200,14 @@ public class CheckOutWindow extends JFrame implements LibWindow {
 
 	private void addBackButtonListener(JButton butn) {
 		butn.addActionListener(evt -> {
-			CheckOutWindow.INSTANCE.setVisible(false);
+			LibrarySystem.hideAllWindows();
 			Dashboard.INSTANCE.init();
 		});
 	}
 
-	private void addCheckoutButtonListener(JButton butn) {
+	private void addMemberButtonListener(JButton butn) {
 		butn.addActionListener(evt -> {
-
-			RuleSet rules = RuleSetFactory.getRuleSet(this);
-			try {
-				rules.applyRules(this);
-			} catch (RuleException e) {
-				System.out.println(e.toString());
-			}
+			AddLibraryMemberWindow.INSTANCE.init();
 		});
 	}
 
@@ -233,9 +221,9 @@ public class CheckOutWindow extends JFrame implements LibWindow {
 	}
 
 	private DefaultTableModel getDefaultTableModel() {
-		List<String> columns = TableUtil.getColumnsCheckout();
+		List<String> columns = TableUtil.getColumnsMembers();
 
-		Object[][] rows = TableUtil.getRowsCheckout(ci.allCheckoutRecords());
+		Object[][] rows = TableUtil.getRowsMembers(ci.allMembers());
 
 		DefaultTableModel tableModel = TableUtil.getDefaultTableModel(columns, rows);
 		return tableModel;

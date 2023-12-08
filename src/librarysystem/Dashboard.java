@@ -25,8 +25,21 @@ public class Dashboard extends JFrame {
     private JPanel lowerPanel;
     public JTable table;
     private SystemController systemController;
+    private boolean isInitialized = false;
 
+    public boolean isInitialized() {
+        return isInitialized;
+    }
+    public void isInitialized(boolean val) {
+        isInitialized = val;
+    }
     void init(){
+        if(this.isInitialized){
+            Dashboard.INSTANCE.setVisible(true);
+            refreshTable();
+            return;
+        }
+        isInitialized(true);
         systemController = new SystemController();
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(800, 600);
@@ -113,7 +126,7 @@ public class Dashboard extends JFrame {
     private void addBackButtonListener(JButton butn) {
         butn.addActionListener(evt -> {
             LibrarySystem.hideAllWindows();
-            LoginWindow.INSTANCE.setVisible(true);
+            Dashboard.INSTANCE.init();
         });
     }
 
@@ -134,7 +147,7 @@ public class Dashboard extends JFrame {
                 if(SystemController.currentAuth == Auth.ADMIN || SystemController.currentAuth == Auth.BOTH){
                     LibrarySystem.hideAllWindows();
                     Dashboard.INSTANCE.setVisible(false);
-                    AddLibraryMemberWindow.INSTANCE.init();
+                    LibraryMemberListWindow.INSTANCE.init();
                 }
             }
 

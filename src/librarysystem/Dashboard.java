@@ -124,10 +124,9 @@ public class Dashboard extends JFrame {
             @Override
             public void mousePressed(MouseEvent e) {
                 if(SystemController.currentAuth == Auth.ADMIN || SystemController.currentAuth == Auth.BOTH){
-
                     LibrarySystem.hideAllWindows();
                     Dashboard.INSTANCE.setVisible(false);
-                     AddLibraryMemberWindow.INSTANCE.init();
+                    AddLibraryMemberWindow.INSTANCE.init();
                 }
             }
 
@@ -156,8 +155,6 @@ public class Dashboard extends JFrame {
             @Override
             public void mousePressed(MouseEvent e) {
                 if(SystemController.currentAuth == Auth.ADMIN || SystemController.currentAuth == Auth.BOTH) {
-
-                    LibrarySystem.hideAllWindows();
                     Dashboard.INSTANCE.setVisible(false);
                     AddBookCopy.INSTANCE.init();
                 }
@@ -188,9 +185,8 @@ public class Dashboard extends JFrame {
             @Override
             public void mousePressed(MouseEvent e) {
                 if(SystemController.currentAuth == Auth.LIBRARIAN || SystemController.currentAuth == Auth.BOTH) {
-
-                    LibrarySystem.hideAllWindows();
                     Dashboard.INSTANCE.setVisible(false);
+
                     CheckOutWindow.INSTANCE.init();
                 }
             }

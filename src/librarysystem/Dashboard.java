@@ -77,12 +77,20 @@ public class Dashboard extends JFrame {
         List<String> columns = TableUtil.getColumnsCheckout();
 
         Object[][] rows = TableUtil.getRowsCheckout(
-                systemController.filteredCheckoutRecords(LocalDateTime.now().minusDays(1),
+                systemController.filteredCheckoutRecords(LocalDateTime.now().truncatedTo(java.time.temporal.ChronoUnit.DAYS),
                         null
                 ));
 
         DefaultTableModel tableModel = TableUtil.getDefaultTableModel(columns, rows);
         return tableModel;
+    }
+    public void refreshTable() {
+
+        DefaultTableModel tableModel = getDefaultTableModel();
+
+        table.setModel(tableModel);
+        table.revalidate();
+        table.repaint();
     }
 
     private void createTable() {

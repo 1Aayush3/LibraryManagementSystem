@@ -19,6 +19,7 @@ public class AddBookCopy extends JFrame {
     private JTextField searchField;
     private JTable bookListTable;
     private JLabel searchResult;
+    private JPanel bottomPannel;
     private JButton addBookCopy;
     private Object[][] rows;
     private String isbn;
@@ -36,14 +37,18 @@ public class AddBookCopy extends JFrame {
         initializeFields();
         createTopPanel();
         createTable();
+        createBottomPanel();
 
-        JPanel bottomPannel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        JButton backButton = new JButton("<= Back to Main");
-        addBackButtonListener(backButton);
-        bottomPannel.add(backButton);
         add(bottomPannel,BorderLayout.SOUTH);
         isInitialized();
         actionListeners();
+    }
+
+    private void createBottomPanel() {
+        bottomPannel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        JButton backButton = new JButton("<= Back to Main");
+        addBackButtonListener(backButton);
+        bottomPannel.add(backButton);
     }
 
     private void setupDefaultDesigns() {
@@ -79,12 +84,16 @@ public class AddBookCopy extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 systemController.addBookCopy(isbn);
                 rows = TableUtil.getRowsBooks(systemController.allBooks().values().stream().toList());
-                DefaultTableModel tableModel = TableUtil.getDefaultTableModel(columns, rows);
-                bookListTable.setModel(tableModel);
-                bookListTable.revalidate();
-                bookListTable.repaint();
+                updateTable();
             }
         });
+    }
+
+    private void updateTable() {
+        DefaultTableModel tableModel = TableUtil.getDefaultTableModel(columns, rows);
+        bookListTable.setModel(tableModel);
+        bookListTable.revalidate();
+        bookListTable.repaint();
     }
 
     private void createTable() {

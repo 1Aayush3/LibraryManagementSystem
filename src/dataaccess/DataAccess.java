@@ -13,6 +13,7 @@ public interface DataAccess {
 	public HashMap<String, LibraryMember> readMemberMap();
 	public HashMap<String, CheckoutRecord> readCheckoutRecordMap();
 	public void saveNewMember(LibraryMember member);
+	public void saveNewBook(Book book);
 	public void saveCheckoutRecord(CheckoutRecord checkoutRecord);
 	public void updateBook(Book book);
 	public Book getBookByIsbn(String isbn);

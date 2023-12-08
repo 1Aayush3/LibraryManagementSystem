@@ -33,6 +33,15 @@ public class DataAccessFacade implements DataAccess {
 		mems.put(memberId, member);
 		saveToStorage(StorageType.MEMBERS, mems);
 	}
+
+	@Override
+	public void saveNewBook(Book book) {
+		HashMap<String, Book> bookList = readBooksMap();
+		String isbn = book.getIsbn();
+		bookList.put(isbn, book);
+		saveToStorage(StorageType.BOOKS, bookList);
+	}
+
 	public void saveCheckoutRecord(CheckoutRecord checkoutRecord) {
 		HashMap<String, CheckoutRecord> checkouts = readCheckoutRecordMap();
 		String checkoutRecordId = checkoutRecord.getCheckoutRecordId();

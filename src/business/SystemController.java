@@ -1,13 +1,13 @@
 package business;
 
-import java.lang.reflect.Member;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
-import java.time.LocalDate;
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import dataaccess.Auth;
@@ -38,6 +38,12 @@ public class SystemController implements ControllerInterface {
 	public void addLibraryMember(LibraryMember member) {
 		DataAccess da = new DataAccessFacade();
 		da.saveNewMember(member);
+	}
+
+	@Override
+	public void addBook(Book book){
+		DataAccess da = new DataAccessFacade();
+		da.saveNewBook(book);
 	}
 
 	@Override
@@ -151,6 +157,8 @@ public class SystemController implements ControllerInterface {
 	}
 
 	@Override
+	public List<Author> getAllAuthors(){ return new DataAccessFacade().getAllAuthors();}
+	@Override
 	public String getTotalLibraryMemberss() {
 		return String.valueOf(allMemberIds().size());
 	}
@@ -163,6 +171,17 @@ public class SystemController implements ControllerInterface {
 	@Override
 	public String getTotalBooks() {
 		return String.valueOf(allBooks().size());
+	}
+
+	@Override
+	public String getStringBetweenBrackets(String selectedItem){
+		Pattern pattern = Pattern.compile("\\((.*?)\\)");
+		Matcher matcher = pattern.matcher(selectedItem);
+		if (matcher.find()) {
+			return matcher.group(1);
+		}
+		return "";
+
 	}
 
 }

@@ -14,7 +14,8 @@ import validation.RuleException;
 public interface ControllerInterface {
 	public void login(String id, String password) throws RuleException;
 	public void addLibraryMember(LibraryMember member);
-	public List<String> allMemberIds();
+    public void addBook(Book book);
+    public List<String> allMemberIds();
 	public List<String> allBookIds();
 	public HashMap<String, Book> allBooks();
 	public Book searchBookByISBN(String isbn);
@@ -25,9 +26,13 @@ public interface ControllerInterface {
 
 	public void checkoutBook(String memberId, String bookISBN) throws RuleException;
 
-	String getTotalLibraryMemberss();
+    List<Author> getAllAuthors();
+
+    String getTotalLibraryMemberss();
 
 	String getTotalCheckedOut();
 
 	String getTotalBooks();
+
+	String getStringBetweenBrackets(String selectedItem);
 }

@@ -1,135 +1,134 @@
-    package librarysystem;
+package librarysystem;
 
-    import business.Author;
-    import business.Book;
-    import dataaccess.DataAccessFacade;
+import business.Author;
+import business.Book;
+import business.SystemController;
+import dataaccess.DataAccessFacade;
+import validation.RuleException;
+import validation.RuleSet;
+import validation.RuleSetFactory;
 
-    import javax.swing.*;
-    import java.awt.*;
-    import java.awt.event.ActionEvent;
-    import java.awt.event.ActionListener;
-    import java.util.ArrayList;
-    import java.util.List;
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
 
-    public class AddBookWindow extends JFrame implements LibWindow {
+public class AddBookWindow extends JFrame {
 
-        private JPanel mainPanel;
-
-        private JPanel topPanel;
-        private JPanel middlePanel;
-        private JPanel lowerPanel;
-
-        private JTextField isbnField;
-        private JTextField titleField;
-        private JTextField maxCheckoutLengthField;
-        private JComboBox<String> authorsComboBox; // Change to JComboBox for selectable authors
-        private JLabel isbnLabel;
-        private JLabel titleLabel;
-        private JLabel maxCheckoutLengthLabel;
-        private JLabel authorsLabel;
-        private JButton addBookButton;
-
-        private DataAccessFacade dataAccessFacade;
-
-        public AddBookWindow() {
-            dataAccessFacade = new DataAccessFacade();
-        }
-
-        @Override
-        public void init() {
-            this.setExtendedState(JFrame.MAXIMIZED_BOTH);
-            mainPanel = new JPanel();
-            mainPanel.setLayout(new BorderLayout());
-            defineTopPanel();
-            defineMiddlePanel();
-            defineLowerPanel();
-            mainPanel.add(topPanel, BorderLayout.NORTH);
-            mainPanel.add(middlePanel, BorderLayout.CENTER);
-            mainPanel.add(lowerPanel, BorderLayout.SOUTH);
-            getContentPane().add(mainPanel);
-
-            // Load authors into the ComboBox
-            loadAuthorsComboBox();
-        }
-
-        @Override
-        public boolean isInitialized() {
-            return false;
-        }
-
-        @Override
-        public void isInitialized(boolean val) {
-
-        }
-
-        private void loadAuthorsComboBox() {
-
-            List<Author> allAuthors = dataAccessFacade.getAllAuthors();
-            List<String> authorNames = new ArrayList<>();
-            for (Author author : allAuthors) {
-                authorNames.add(author.getFirstName());
-            }
-            DefaultComboBoxModel<String> model = new DefaultComboBoxModel<>(authorNames.toArray(new String[0]));
-            authorsComboBox.setModel(model);
-        }
-
-        private void defineTopPanel() {
-            topPanel = new JPanel();
-            isbnLabel = new JLabel("ISBN:");
-            isbnField = new JTextField(15);
-
-            topPanel.add(isbnLabel);
-            topPanel.add(isbnField);
-        }
-
-        private void defineMiddlePanel() {
-            middlePanel = new JPanel();
-            titleLabel = new JLabel("Title:");
-            titleField = new JTextField(15);
-
-            maxCheckoutLengthLabel = new JLabel("Max Checkout Length:");
-            maxCheckoutLengthField = new JTextField(5);
-
-            authorsLabel = new JLabel("Author:");
-            authorsComboBox = new JComboBox<String>(); // ComboBox for selectable authors
-
-            middlePanel.add(titleLabel);
-            middlePanel.add(titleField);
-            middlePanel.add(maxCheckoutLengthLabel);
-            middlePanel.add(maxCheckoutLengthField);
-            middlePanel.add(authorsLabel);
-            middlePanel.add(authorsComboBox);
-        }
-
-        private void defineLowerPanel() {
-            lowerPanel = new JPanel();
-            addBookButton = new JButton("Add Book");
-            addBookButton.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    addBook();
-                }
-            });
-
-            lowerPanel.add(addBookButton);
-        }
-
-        private void addBook() {
-            try {
-                String isbn = isbnField.getText();
-                String title = titleField.getText();
-                int maxCheckoutLength = Integer.parseInt(maxCheckoutLengthField.getText());
-
-                Author selectedAuthor = (Author) authorsComboBox.getSelectedItem();
-                List<Author> authors = new ArrayList<>();
-                authors.add(selectedAuthor);
-
-                Book newBook = new Book(isbn, title, maxCheckoutLength, authors);
-                dataAccessFacade.saveBook(newBook);
-
-                System.out.println("New Book Created: " + newBook.toString());
-            } catch (NumberFormatException ex) {
-                JOptionPane.showMessageDialog(this, "Invalid Max Checkout Length. Please enter a valid number.");
-            }
-        }
+    public JTextField getIsbnTextField() {
+        return isbnTextField;
     }
+
+    public JTextField getTitleTextField() {
+        return titleTextField;
+    }
+
+    public JTextField getMaxCheckoutLengthTextField() {
+        return maxCheckoutLengthTextField;
+    }
+
+    public JComboBox<String> getAuthorComboBox() {
+        return authorComboBox;
+    }
+
+    private JTextField isbnTextField;
+    private JTextField titleTextField;
+    private JTextField maxCheckoutLengthTextField;
+    private JComboBox<String> authorComboBox;
+
+    public AddBookWindow() {
+        initialize();
+    }
+
+    private void initialize() {
+        setTitle("Add New Book");
+        setBounds(500, 100, 433, 550);
+
+        JPanel mPanel = new JPanel(new BorderLayout());
+
+        JPanel mainPanel = new JPanel(new GridLayout(4, 2, 10, 10));
+
+        JLabel isbnLabel = new JLabel("ISBN:");
+        isbnTextField = new JTextField();
+
+        JLabel titleLabel = new JLabel("Title:");
+        titleTextField = new JTextField();
+
+        JLabel authorLabel = new JLabel("Author(s):");
+        authorComboBox = new JComboBox<>();
+        for (Author author :new SystemController().getAllAuthors()) {
+            authorComboBox.addItem(author.getFullName()+" ("+author.getTelephone()+")");
+        }
+
+        JLabel maxCheckoutLengthLabel = new JLabel("Max Checkout Length:");
+        maxCheckoutLengthTextField = new JTextField();
+
+        JButton submitButton = new JButton("Submit");
+        submitButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                submitBook();
+            }
+        });
+
+        mainPanel.add(isbnLabel);
+        mainPanel.add(isbnTextField);
+
+        mainPanel.add(titleLabel);
+        mainPanel.add(titleTextField);
+
+        mainPanel.add(maxCheckoutLengthLabel);
+        mainPanel.add(maxCheckoutLengthTextField);
+
+        mainPanel.add(authorLabel);
+        mainPanel.add(authorComboBox);
+
+        mPanel.add(mainPanel, BorderLayout.NORTH);
+
+        JPanel jPanel = new JPanel();
+        jPanel.add(submitButton);
+
+        mPanel.add(jPanel,BorderLayout.SOUTH);
+        add(mPanel);
+        setLocationRelativeTo(null);
+        setVisible(true);
+    }
+
+    private void submitBook() {
+        String isbn = isbnTextField.getText().trim();
+        String title = titleTextField.getText().trim();
+        int maxCheckoutLength = Integer.parseInt(maxCheckoutLengthTextField.getText().trim());
+
+        RuleSet rules = RuleSetFactory.getRuleSet(this);
+        try{
+            rules.applyRules(this);
+            SystemController controller = new SystemController();
+
+            String selectedTelephone = controller.getStringBetweenBrackets((String) authorComboBox.getSelectedItem());
+            List<Author> selectedAuthor = new ArrayList<>();
+
+            for (Author author : controller.getAllAuthors()) {
+                if (author.getTelephone().equals(selectedTelephone)) {
+                     selectedAuthor.add(author) ;
+                }
+            }
+
+            controller.addBook(
+                new Book(isbn,title,maxCheckoutLength,selectedAuthor)
+            );
+            JOptionPane.showMessageDialog(this, "Book Added:\nISBN: " + isbn + "\nTitle: " + title + "\nAuthor: "+authorComboBox.getSelectedItem() );
+        }catch (RuleException e){
+            JOptionPane.showMessageDialog(this,e.getMessage());
+        }
+
+        isbnTextField.setText("");
+        titleTextField.setText("");
+        authorComboBox.setSelectedIndex(-1);
+    }
+
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(() -> new AddBookWindow());
+    }
+}

@@ -14,9 +14,9 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AddBookCopy extends JFrame {
+public class AddBookCopyWindow extends JFrame {
 
-    public static final AddBookCopy INSTANCE = new AddBookCopy();
+    public static final AddBookCopyWindow INSTANCE = new AddBookCopyWindow();
     private JButton searchButton;
     private boolean isInitialized = false;
     private JTextField searchField;
@@ -30,10 +30,10 @@ public class AddBookCopy extends JFrame {
     private List<String> columns;
     private JPanel panel;
     private SystemController systemController;
-    private AddBookCopy(){}
+    private AddBookCopyWindow(){}
     void init(){
         if(this.isInitialized){
-            AddBookCopy.INSTANCE.setVisible(true);
+            AddBookCopyWindow.INSTANCE.setVisible(true);
             return;
         }
 
@@ -60,7 +60,7 @@ public class AddBookCopy extends JFrame {
         setSize(800, 600);
         setMaximumSize(new Dimension(800, 600));
         setMinimumSize(new Dimension(800, 600));
-        Util.centerFrameOnDesktop(AddBookCopy.INSTANCE);
+        Util.centerFrameOnDesktop(AddBookCopyWindow.INSTANCE);
         this.setVisible(true);
     }
 
@@ -81,7 +81,7 @@ public class AddBookCopy extends JFrame {
 
     private void addBackButtonListener(JButton butn) {
         butn.addActionListener(evt -> {
-            AddBookCopy.INSTANCE.setVisible(false);
+            AddBookCopyWindow.INSTANCE.setVisible(false);
             Dashboard.INSTANCE.init();
         });
     }

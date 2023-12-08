@@ -24,13 +24,6 @@ public class CheckoutRuleSet implements RuleSet {
         if(memberId.isEmpty() || bookISBN.isEmpty()){
             throw new RuleException(checkOutWindow, Message.blankMemberIDErrorText);
         }
-        try {
-            ci.checkoutBook(memberId, bookISBN);
-        }
-        catch (Exception ex){
-            throw new RuleException(checkOutWindow, ex.getMessage());
-        }
 
-        checkOutWindow.refreshTable();
     }
 }

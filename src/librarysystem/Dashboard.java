@@ -1,19 +1,15 @@
 package librarysystem;
 
-import business.LibraryMember;
 import business.SystemController;
 import dataaccess.Auth;
 
 import javax.swing.*;
-import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -178,7 +174,7 @@ public class Dashboard extends JFrame {
             public void mousePressed(MouseEvent e) {
                 if(SystemController.currentAuth == Auth.ADMIN || SystemController.currentAuth == Auth.BOTH) {
                     Dashboard.INSTANCE.setVisible(false);
-                    AddBookCopy.INSTANCE.init();
+                    AddBookCopyWindow.INSTANCE.init();
                 }
             }
 

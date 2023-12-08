@@ -31,7 +31,10 @@ public class AddBookCopy extends JFrame {
     private AddBookCopy(){}
     void init(){
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(660,500);
+        setSize(800, 600);
+        setMaximumSize(new Dimension(800, 600));
+        setMinimumSize(new Dimension(800, 600));
+        Util.centerFrameOnDesktop(AddBookCopy.INSTANCE);
         this.setVisible(true);
 
         initializeFields();
@@ -40,9 +43,23 @@ public class AddBookCopy extends JFrame {
         createTable();
         panel.add(new JScrollPane(bookListTable), BorderLayout.CENTER);
         add(panel);
+
+        JPanel bottomPannel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        JButton backButton = new JButton("<= Back to Main");
+        addBackButtonListener(backButton);
+        bottomPannel.add(backButton);
+        add(bottomPannel,BorderLayout.SOUTH);
+
         actionListeners();
     }
 
+
+    private void addBackButtonListener(JButton butn) {
+        butn.addActionListener(evt -> {
+            LibrarySystem.hideAllWindows();
+            Dashboard.INSTANCE.setVisible(true);
+        });
+    }
     private void actionListeners() {
         searchButton.addActionListener(new ActionListener() {
             @Override

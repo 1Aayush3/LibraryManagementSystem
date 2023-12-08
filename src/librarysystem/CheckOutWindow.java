@@ -61,12 +61,11 @@ public class CheckOutWindow extends JFrame implements LibWindow {
     
     public void init() {     		
     		mainPanel = new JPanel();
+			mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
     		defineUpperHalf();
     		defineMiddleHalf();
     		defineLowerHalf();
-    		BorderLayout bl = new BorderLayout();
-    		bl.setVgap(30);
-    		mainPanel.setLayout(bl);
+
     					
     		mainPanel.add(upperHalf, BorderLayout.NORTH);
     		mainPanel.add(middleHalf, BorderLayout.CENTER);
@@ -74,11 +73,15 @@ public class CheckOutWindow extends JFrame implements LibWindow {
     		getContentPane().add(mainPanel);
     		isInitialized(true);
 //    		pack();
-    		setSize(660, 500);
+			setSize(800, 600);
+			setMaximumSize(new Dimension(800, 600));
+			setMinimumSize(new Dimension(800, 600));
+			Util.centerFrameOnDesktop(CheckOutWindow.INSTANCE);
 			setVisible(true);
 
     	
     }
+
     private void defineUpperHalf() {
     		
     		upperHalf = new JPanel();
@@ -113,13 +116,11 @@ public class CheckOutWindow extends JFrame implements LibWindow {
     	}
     	private void defineTopPanel() {
     		topPanel = new JPanel();
-    		JPanel intPanel = new JPanel(new BorderLayout());
-    		intPanel.add(Box.createRigidArea(new Dimension(0,20)), BorderLayout.NORTH);
-    		JLabel checkoutLabel = new JLabel("Checkout");
-    		Util.adjustLabelFont(checkoutLabel, Color.BLUE.darker(), true);
-    		intPanel.add(checkoutLabel, BorderLayout.CENTER);
     		topPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
-    		topPanel.add(intPanel);
+
+			JLabel title = new JLabel("Library Management System - Checkout");
+			title.setFont(new Font(title.getFont().getFontName(), Font.BOLD, 20));
+    		topPanel.add(title);
 
 
     	}
@@ -144,10 +145,11 @@ public class CheckOutWindow extends JFrame implements LibWindow {
     		lowerPanel = new JPanel();
 			// Create a JTable with the table model
 			table = new JTable(getDefaultTableModel());
-			refreshTable();
 			// Add the JTable to a scroll pane
+			table.setPreferredScrollableViewportSize(new Dimension(770,400));
 			JScrollPane scrollPane = new JScrollPane(table);
 
+			refreshTable();
 			lowerPanel.add(scrollPane);
 
     	}
@@ -196,7 +198,7 @@ public class CheckOutWindow extends JFrame implements LibWindow {
 	private void addBackButtonListener(JButton butn) {
 		butn.addActionListener(evt -> {
 			LibrarySystem.hideAllWindows();
-			LibrarySystem.INSTANCE.setVisible(true);
+			Dashboard.INSTANCE.setVisible(true);
 		});
 	}
 

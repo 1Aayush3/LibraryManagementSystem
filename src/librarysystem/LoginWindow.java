@@ -5,16 +5,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 
-import javax.swing.Box;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JPasswordField;
-import javax.swing.JSeparator;
-import javax.swing.JTextField;
-import javax.swing.SwingConstants;
-import javax.swing.JOptionPane;
+import javax.swing.*;
 
 import business.ControllerInterface;
 
@@ -47,10 +38,9 @@ public class LoginWindow extends JFrame implements LibWindow {
 	private JLabel label;
 	private JButton loginButton;
 	private JButton logoutButton;
-	
-	
-	
-	
+	private String pathToImage;
+
+
 	public boolean isInitialized() {
 		return isInitialized;
 	}
@@ -77,11 +67,15 @@ public class LoginWindow extends JFrame implements LibWindow {
     		mainPanel.add(upperHalf, BorderLayout.NORTH);
     		mainPanel.add(middleHalf, BorderLayout.CENTER);
     		mainPanel.add(lowerHalf, BorderLayout.SOUTH);
-    		getContentPane().add(mainPanel);
+			getContentPane().add(mainPanel);
     		isInitialized(true);
     		pack();
-    		//setSize(660, 500);
+    		setSize(800, 600);
+		setMaximumSize(new Dimension(800, 600));
+		setMinimumSize(new Dimension(800, 600));
 			setVisible(true);
+
+			Util.centerFrameOnDesktop(LoginWindow.INSTANCE);
     	
     }
     private void defineUpperHalf() {
@@ -94,7 +88,7 @@ public class LoginWindow extends JFrame implements LibWindow {
     		upperHalf.add(topPanel, BorderLayout.NORTH);
     		upperHalf.add(middlePanel, BorderLayout.CENTER);
     		upperHalf.add(lowerPanel, BorderLayout.SOUTH);
-    		
+
     	}
     	private void defineMiddleHalf() {
     		middleHalf = new JPanel();
@@ -109,36 +103,43 @@ public class LoginWindow extends JFrame implements LibWindow {
 
     		lowerHalf = new JPanel();
     		lowerHalf.setLayout(new FlowLayout(FlowLayout.LEFT));
-    		
-    		JButton backButton = new JButton("<= Back to Main");
-    		addBackButtonListener(backButton);
-    		lowerHalf.add(backButton);
+
     		
     	}
     	private void defineTopPanel() {
-    		topPanel = new JPanel();
-    		JPanel intPanel = new JPanel(new BorderLayout());
-    		intPanel.add(Box.createRigidArea(new Dimension(0,20)), BorderLayout.NORTH);
-    		JLabel loginLabel = new JLabel("Login");
-    		Util.adjustLabelFont(loginLabel, Color.BLUE.darker(), true);
-    		intPanel.add(loginLabel, BorderLayout.CENTER);
-    		topPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
-    		topPanel.add(intPanel);
-    		
-    	}
+    		topPanel = new JPanel(new BorderLayout());
+			topPanel.setBackground(Color.white);
+
+			setPathToImage();
+			ImageIcon image = new ImageIcon(pathToImage);
+			topPanel.add(new JLabel(image), BorderLayout.NORTH);
+		}
+	private void setPathToImage() {
+		String currDirectory = System.getProperty("user.dir");
+		String osName = System.getProperty("os.name");
+		boolean isMac = osName.startsWith("Mac");
+		if(isMac){
+			pathToImage = currDirectory + "/src/librarysystem/miu_logo.jpg";
+		}
+		else {
+			pathToImage = currDirectory + "\\src\\librarysystem\\miu_logo.jpg";
+		}
+	}
     	
     	
     	
     	private void defineMiddlePanel() {
     		middlePanel=new JPanel();
-    		middlePanel.setLayout(new FlowLayout(FlowLayout.LEFT));
-    		defineLeftTextPanel();
+    		middlePanel.setLayout(new FlowLayout(FlowLayout.CENTER));
+			middlePanel.setBorder(BorderFactory.createEmptyBorder(30, 0, 0, 0));
+			defineLeftTextPanel();
     		defineRightTextPanel();
     		middlePanel.add(leftTextPanel);
     		middlePanel.add(rightTextPanel);
     	}
     	private void defineLowerPanel() {
     		lowerPanel = new JPanel();
+			lowerPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
     		loginButton = new JButton("Login");
     		addLoginButtonListener(loginButton);
     		lowerPanel.add(loginButton);

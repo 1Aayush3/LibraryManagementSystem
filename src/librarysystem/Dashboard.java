@@ -28,7 +28,10 @@ public class Dashboard extends JFrame {
     void init(){
         systemController = new SystemController();
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(660,500);
+        setSize(800, 600);
+        setMaximumSize(new Dimension(800, 600));
+        setMinimumSize(new Dimension(800, 600));
+
         this.setVisible(true);
         JPanel mainPanel = new JPanel();
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
@@ -56,6 +59,13 @@ public class Dashboard extends JFrame {
         mainPanel.add(tableLabel);
         mainPanel.add(lowerPanel);
 
+        JButton backButton = new JButton("Logout");
+        addBackButtonListener(backButton);
+        mainPanel.add(backButton);
+
+        mainPanel.setSize(660,500);
+        mainPanel.setMaximumSize(new Dimension( 660,500));
+        Util.centerFrameOnDesktop(Dashboard.INSTANCE);
         // Set the main panel as the content pane
         add(mainPanel);
 
@@ -83,11 +93,19 @@ public class Dashboard extends JFrame {
 
         // Create a JTable with the table model
         table = new JTable(tableModel);
-        table.setPreferredScrollableViewportSize(new Dimension(570,280));
+        table.setPreferredScrollableViewportSize(new Dimension(710,340));
         // Add the JTable to a scroll pane
         JScrollPane scrollPane = new JScrollPane(table);
 
         lowerPanel.add(scrollPane);
+
+
+    }
+    private void addBackButtonListener(JButton butn) {
+        butn.addActionListener(evt -> {
+            LibrarySystem.hideAllWindows();
+            LoginWindow.INSTANCE.setVisible(true);
+        });
     }
 
     private void createInfoPanel() {
@@ -106,7 +124,7 @@ public class Dashboard extends JFrame {
             public void mousePressed(MouseEvent e) {
                 if(SystemController.currentAuth == Auth.ADMIN || SystemController.currentAuth == Auth.BOTH){
                     Dashboard.INSTANCE.setVisible(false);
-                    AddLibraryMemberWindow.INSTANCE.init();
+                     AddLibraryMemberWindow.INSTANCE.init();
                 }
             }
 

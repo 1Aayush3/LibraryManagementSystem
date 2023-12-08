@@ -1,6 +1,7 @@
 package business;
 
 import java.lang.reflect.Member;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -103,18 +104,19 @@ public class SystemController implements ControllerInterface {
 		DataAccess da = new DataAccessFacade();
 		List<CheckoutRecord> retval = new ArrayList<>();
 		retval.addAll(da.readCheckoutRecordMap().values());
+		Collections.sort(retval, Comparator.comparing(o -> o.getCheckoutRecordEntryList().get(0).getCheckoutDate()));
 		return retval;
 	}
 	@Override
-	public List<CheckoutRecord> filteredCheckoutRecords(LocalDate date, Integer limit){
+	public List<CheckoutRecord> filteredCheckoutRecords(LocalDateTime date, Integer limit){
 		DataAccess da = new DataAccessFacade();
 		List<CheckoutRecord> retval = new ArrayList<>();
 		retval.addAll(da.readCheckoutRecordMap().values());
-		Collections.sort(retval, Comparator.comparing(o -> o.getCheckoutRecordEntryList().get(0).getDueDate()));
+		Collections.sort(retval, Comparator.comparing(o -> o.getCheckoutRecordEntryList().get(0).getCheckoutDate()));
 
 		if(date != null ) {
 			retval = retval.stream()
-					.filter(order -> order.getCheckoutRecordEntryList().get(0).getDueDate().isAfter(date))
+					.filter(order -> order.getCheckoutRecordEntryList().get(0).getCheckoutDate().isAfter(date))
 					.collect(Collectors.toList());
 		}
 
@@ -140,7 +142,7 @@ public class SystemController implements ControllerInterface {
 
 		List<CheckoutRecordEntry> checkoutRecordEntries = new ArrayList<>();
 
-		checkoutRecordEntries.add(new CheckoutRecordEntry(LocalDate.now(),LocalDate.now().plusDays(book.getMaxCheckoutLength()),availableCopy));
+		checkoutRecordEntries.add(new CheckoutRecordEntry(LocalDateTime.now(), LocalDateTime.now().plusDays(book.getMaxCheckoutLength()),availableCopy));
 		da.saveCheckoutRecord(new CheckoutRecord(""+ Util.randomId(),mbrs.get(memberId),checkoutRecordEntries));
 
 		availableCopy.changeAvailability();

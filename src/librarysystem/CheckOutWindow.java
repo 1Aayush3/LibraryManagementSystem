@@ -59,7 +59,10 @@ public class CheckOutWindow extends JFrame implements LibWindow {
 		ci = new SystemController();
 	}
     
-    public void init() {     		
+    public void init() {
+			if(mainPanel != null){
+				return;
+			}
     		mainPanel = new JPanel();
 			mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
     		defineUpperHalf();

@@ -7,6 +7,7 @@ import business.SystemController;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -38,16 +39,18 @@ public class TableUtil {
     }
 
     public static Object[][] getRowsCheckout(List<CheckoutRecord> checkoutRecords) {
+
         Object[][] models = new Object[checkoutRecords.size()][];
         // Populate the table model
         for (int i =0;i<checkoutRecords.size();i++) {
             CheckoutRecord object = checkoutRecords.get(i);
+
             models[i] = new Object[]  {
                     object.getMember().getFirstName() + " " + object.getMember().getLastName(),
                     object.getCheckoutRecordEntryList().get(0).getBookCopy().getBook().getTitle(),
                     object.getCheckoutRecordEntryList().get(0).getBookCopy().getBook().getIsbn(),
-                    object.getCheckoutRecordEntryList().get(0).getCheckoutDate(),
-                    object.getCheckoutRecordEntryList().get(0).getDueDate()
+                    object.getCheckoutRecordEntryList().get(0).getCheckoutDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")),
+                    object.getCheckoutRecordEntryList().get(0).getDueDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"))
             };
         }
         return models;

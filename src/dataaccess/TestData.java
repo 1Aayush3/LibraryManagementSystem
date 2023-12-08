@@ -1,6 +1,7 @@
 package dataaccess;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -36,11 +37,11 @@ public class TestData {
 		List<CheckoutRecord> checkoutRecords = new ArrayList<>();
 
 		List<CheckoutRecordEntry> checkoutRecordEntries = new ArrayList<>();
-		checkoutRecordEntries.add(new CheckoutRecordEntry(LocalDate.now(),LocalDate.now(),allBooks.get(0).getNextAvailableCopy()));
+		checkoutRecordEntries.add(new CheckoutRecordEntry(LocalDateTime.now(),LocalDateTime.now(),allBooks.get(0).getNextAvailableCopy()));
 		checkoutRecords.add(new CheckoutRecord("a",members.get(2),checkoutRecordEntries));
 
 		List<CheckoutRecordEntry> checkoutRecordEntries2 = new ArrayList<>();
-		checkoutRecordEntries2.add(new CheckoutRecordEntry(LocalDate.now(),LocalDate.now(),allBooks.get(0).getNextAvailableCopy()));
+		checkoutRecordEntries2.add(new CheckoutRecordEntry(LocalDateTime.now(),LocalDateTime.now(),allBooks.get(0).getNextAvailableCopy()));
 		checkoutRecords.add(new CheckoutRecord("b",members.get(1),checkoutRecordEntries2));
 
 

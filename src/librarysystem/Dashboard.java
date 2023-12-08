@@ -12,6 +12,7 @@ import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -76,7 +77,7 @@ public class Dashboard extends JFrame {
         List<String> columns = TableUtil.getColumnsCheckout();
 
         Object[][] rows = TableUtil.getRowsCheckout(
-                systemController.filteredCheckoutRecords(LocalDate.now().minusDays(1),
+                systemController.filteredCheckoutRecords(LocalDateTime.now().minusDays(1),
                         null
                 ));
 
@@ -123,6 +124,8 @@ public class Dashboard extends JFrame {
             @Override
             public void mousePressed(MouseEvent e) {
                 if(SystemController.currentAuth == Auth.ADMIN || SystemController.currentAuth == Auth.BOTH){
+
+                    LibrarySystem.hideAllWindows();
                     Dashboard.INSTANCE.setVisible(false);
                      AddLibraryMemberWindow.INSTANCE.init();
                 }
@@ -153,6 +156,8 @@ public class Dashboard extends JFrame {
             @Override
             public void mousePressed(MouseEvent e) {
                 if(SystemController.currentAuth == Auth.ADMIN || SystemController.currentAuth == Auth.BOTH) {
+
+                    LibrarySystem.hideAllWindows();
                     Dashboard.INSTANCE.setVisible(false);
                     AddBookCopy.INSTANCE.init();
                 }
@@ -183,6 +188,8 @@ public class Dashboard extends JFrame {
             @Override
             public void mousePressed(MouseEvent e) {
                 if(SystemController.currentAuth == Auth.LIBRARIAN || SystemController.currentAuth == Auth.BOTH) {
+
+                    LibrarySystem.hideAllWindows();
                     Dashboard.INSTANCE.setVisible(false);
                     CheckOutWindow.INSTANCE.init();
                 }

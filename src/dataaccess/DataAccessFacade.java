@@ -8,11 +8,9 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-import business.Book;
-import business.BookCopy;
-import business.CheckoutRecord;
-import business.LibraryMember;
+import business.*;
 import dataaccess.DataAccessFacade.StorageType;
 
 
@@ -35,12 +33,29 @@ public class DataAccessFacade implements DataAccess {
 		mems.put(memberId, member);
 		saveToStorage(StorageType.MEMBERS, mems);
 	}
+
+	@Override
+	public void saveNewBook(Book book) {
+		HashMap<String, Book> bookList = readBooksMap();
+		String isbn = book.getIsbn();
+		bookList.put(isbn, book);
+		saveToStorage(StorageType.BOOKS, bookList);
+	}
+
 	public void saveCheckoutRecord(CheckoutRecord checkoutRecord) {
 		HashMap<String, CheckoutRecord> checkouts = readCheckoutRecordMap();
 		String checkoutRecordId = checkoutRecord.getCheckoutRecordId();
 		checkouts.put(checkoutRecordId, checkoutRecord);
 		saveToStorage(StorageType.CHECKOUT, checkouts);
 	}
+
+	public void saveBook(Book book) {
+		Map<String, Book> books = readBooksMap();
+		String isbn = book.getIsbn();
+		books.put(isbn, book);
+		saveToStorage(StorageType.BOOKS, books);
+	}
+	
 
 	@Override
 	public void updateBook(Book book) {
@@ -82,6 +97,10 @@ public class DataAccessFacade implements DataAccess {
 		//Returns a Map with name/value pairs being
 		//   checkoutRecordId -> CheckoutRecord
 		return (HashMap<String, CheckoutRecord>)readFromStorage(StorageType.CHECKOUT);
+	}
+
+	public List<Author> getAllAuthors() {
+		return new TestData().allAuthors;
 	}
 	
 	

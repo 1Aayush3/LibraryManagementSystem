@@ -47,7 +47,7 @@ public class Dashboard extends JFrame {
         createTable();
 
         JPanel tableLabel = new JPanel(new BorderLayout());
-        JLabel checkoutBooks = new JLabel("Checked out books with due date today!");
+        JLabel checkoutBooks = new JLabel("Books Checked out Today!");
         checkoutBooks.setFont(new Font(checkoutBooks.getFont().getFontName(), Font.BOLD, checkoutBooks.getFont().getSize()));
 
         tableLabel.add(checkoutBooks);

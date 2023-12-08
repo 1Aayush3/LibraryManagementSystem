@@ -60,6 +60,11 @@ public class CheckOutWindow extends JFrame implements LibWindow {
 	}
     
     public void init() {
+			if(this.isInitialized){
+				CheckOutWindow.INSTANCE.setVisible(true);
+				return;
+			}
+			isInitialized(true);
 			if(mainPanel != null){
 				return;
 			}
@@ -200,7 +205,7 @@ public class CheckOutWindow extends JFrame implements LibWindow {
 
 	private void addBackButtonListener(JButton butn) {
 		butn.addActionListener(evt -> {
-			LibrarySystem.hideAllWindows();
+			CheckOutWindow.INSTANCE.setVisible(false);
 			Dashboard.INSTANCE.setVisible(true);
 		});
 	}

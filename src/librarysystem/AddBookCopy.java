@@ -2,23 +2,20 @@ package librarysystem;
 
 import business.Book;
 import business.SystemController;
-import dataaccess.DataAccessFacade;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 public class AddBookCopy extends JFrame {
 
     public static final AddBookCopy INSTANCE = new AddBookCopy();
     private JButton searchButton;
+    private boolean isInitialized = false;
     private JTextField searchField;
     private JTable bookListTable;
     private JLabel searchResult;
@@ -30,33 +27,42 @@ public class AddBookCopy extends JFrame {
     private SystemController systemController;
     private AddBookCopy(){}
     void init(){
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(800, 600);
-        setMaximumSize(new Dimension(800, 600));
-        setMinimumSize(new Dimension(800, 600));
-        Util.centerFrameOnDesktop(AddBookCopy.INSTANCE);
-        this.setVisible(true);
+        if(this.isInitialized){
+            AddBookCopy.INSTANCE.setVisible(true);
+            return;
+        }
 
+        setupDefaultDesigns();
         initializeFields();
         createTopPanel();
-
         createTable();
-        panel.add(new JScrollPane(bookListTable), BorderLayout.CENTER);
-        add(panel);
 
         JPanel bottomPannel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         JButton backButton = new JButton("<= Back to Main");
         addBackButtonListener(backButton);
         bottomPannel.add(backButton);
         add(bottomPannel,BorderLayout.SOUTH);
-
+        isInitialized();
         actionListeners();
+    }
+
+    private void setupDefaultDesigns() {
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setSize(800, 600);
+        setMaximumSize(new Dimension(800, 600));
+        setMinimumSize(new Dimension(800, 600));
+        Util.centerFrameOnDesktop(AddBookCopy.INSTANCE);
+        this.setVisible(true);
+    }
+
+    void isInitialized(){
+        this.isInitialized = true;
     }
 
 
     private void addBackButtonListener(JButton butn) {
         butn.addActionListener(evt -> {
-            LibrarySystem.hideAllWindows();
+            AddBookCopy.INSTANCE.setVisible(false);
             Dashboard.INSTANCE.setVisible(true);
         });
     }
@@ -91,6 +97,8 @@ public class AddBookCopy extends JFrame {
         rows = TableUtil.getRowsBooks(systemController.allBooks().values().stream().toList());
         DefaultTableModel tableModel = TableUtil.getDefaultTableModel(columns, rows);
         bookListTable = new JTable(tableModel);
+        panel.add(new JScrollPane(bookListTable), BorderLayout.CENTER);
+        add(panel);
     }
 
     private void initializeFields() {
@@ -135,7 +143,7 @@ public class AddBookCopy extends JFrame {
         Book book = systemController.searchBookByISBN(isbn);
 
         if(book != null){
-            searchResult.setText("Are you Searching for: " + book.getTitle());
+            searchResult.setText("The Book Title is: " + book.getTitle());
             addBookCopy.setVisible(true);
         }else{
             searchResult.setText("Sorry No data found, Please try again");

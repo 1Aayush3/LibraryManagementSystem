@@ -31,6 +31,7 @@ public class AddMemberRuleSet implements RuleSet {
             if(value == null || value.trim().isEmpty()){
                 throw new RuleException( Message.emptyFieldText);
             }
+            libraryMember.saveMember();
         }
     }
 }

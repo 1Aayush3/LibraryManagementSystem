@@ -28,11 +28,7 @@ public class LibraryMemberListWindow extends JFrame implements LibWindow {
 	private JPanel leftTextPanel;
 	private JPanel rightTextPanel;
 
-	private JTextField memberId;
-	private JTextField bookISBN;
 	private JLabel label;
-	private JButton loginButton;
-	private JButton logoutButton;
 	public JTable table;
 	private JButton addMemberButton;
 
@@ -166,11 +162,6 @@ public class LibraryMemberListWindow extends JFrame implements LibWindow {
 		topText.setLayout(new FlowLayout(FlowLayout.LEFT,5,0));
 		bottomText.setLayout(new FlowLayout(FlowLayout.LEFT,5,0));
 
-		memberId = new JTextField(10);
-		label = new JLabel("Member Id");
-		label.setFont(Util.makeSmallFont(label.getFont()));
-		topText.add(memberId);
-		bottomText.add(label);
 
 		leftTextPanel = new JPanel();
 		leftTextPanel.setLayout(new BorderLayout());
@@ -183,12 +174,6 @@ public class LibraryMemberListWindow extends JFrame implements LibWindow {
 		JPanel bottomText = new JPanel();
 		topText.setLayout(new FlowLayout(FlowLayout.LEFT,5,0));
 		bottomText.setLayout(new FlowLayout(FlowLayout.LEFT,5,0));
-
-		bookISBN = new JTextField(10);
-		label = new JLabel("Book ISBN");
-		label.setFont(Util.makeSmallFont(label.getFont()));
-		topText.add(bookISBN);
-		bottomText.add(label);
 
 
 
@@ -229,10 +214,4 @@ public class LibraryMemberListWindow extends JFrame implements LibWindow {
 		return tableModel;
 	}
 
-	public String getMemberId(){
-		return memberId.getText();
-	}
-	public String getBookISBN(){
-		return bookISBN.getText();
-	}
 }

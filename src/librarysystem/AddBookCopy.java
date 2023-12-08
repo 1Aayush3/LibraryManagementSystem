@@ -17,6 +17,7 @@ public class AddBookCopy extends JFrame {
     private JButton searchButton;
     private boolean isInitialized = false;
     private JTextField searchField;
+    private JPanel titlePanel;
     private JTable bookListTable;
     private JLabel searchResult;
     private JPanel bottomPannel;
@@ -58,6 +59,18 @@ public class AddBookCopy extends JFrame {
         setMinimumSize(new Dimension(800, 600));
         Util.centerFrameOnDesktop(AddBookCopy.INSTANCE);
         this.setVisible(true);
+    }
+
+    private void defineTitlePanel() {
+        titlePanel = new JPanel();
+        titlePanel.setLayout(new FlowLayout(FlowLayout.LEFT));
+
+        JLabel title = new JLabel("Library Management System - Books");
+        title.setHorizontalAlignment(SwingConstants.CENTER);
+        title.setFont(new Font(title.getFont().getFontName(), Font.BOLD, 20));
+        titlePanel.add(title);
+
+
     }
 
     void isInitialized(){
@@ -141,8 +154,13 @@ public class AddBookCopy extends JFrame {
         topPanel.add(searchPanel, BorderLayout.NORTH);
         topPanel.add(resultPanel, BorderLayout.SOUTH);
 
-         panel = new JPanel(new BorderLayout());
-        panel.add(topPanel, BorderLayout.NORTH);
+        panel = new JPanel(new BorderLayout());
+        defineTitlePanel();
+        JPanel titleAndTopPanel = new JPanel(new BorderLayout());
+        titleAndTopPanel.add(titlePanel, BorderLayout.NORTH);
+        titleAndTopPanel.add(topPanel, BorderLayout.CENTER);
+
+        panel.add(titleAndTopPanel, BorderLayout.NORTH);
     }
 
 

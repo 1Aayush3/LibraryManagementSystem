@@ -4,6 +4,7 @@ import business.*;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -41,14 +42,18 @@ public class TableUtil {
         // Populate the table model
         for (int i =0;i<checkoutRecords.size();i++) {
             CheckoutRecord object = checkoutRecords.get(i);
-
-            models[i] = new Object[]  {
-                    object.getMember().getFirstName() + " " + object.getMember().getLastName(),
-                    object.getCheckoutRecordEntryList().get(0).getBookCopy().getBook().getTitle(),
-                    object.getCheckoutRecordEntryList().get(0).getBookCopy().getBook().getIsbn(),
-                    object.getCheckoutRecordEntryList().get(0).getCheckoutDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")),
-                    object.getCheckoutRecordEntryList().get(0).getDueDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"))
-            };
+            for(CheckoutRecordEntry checkoutrecordentry :object.getCheckoutRecordEntryList()) {
+                Book book = checkoutrecordentry.getBookCopy().getBook();
+                LocalDateTime checkoutDate = checkoutrecordentry.getCheckoutDate();
+                LocalDateTime dueDate = checkoutrecordentry.getDueDate();
+                models[i] = new Object[]{
+                        object.getMember().getFullName(),
+                        book.getTitle(),
+                        book.getIsbn(),
+                        checkoutDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")),
+                        dueDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"))
+                };
+            }
         }
         return models;
     }

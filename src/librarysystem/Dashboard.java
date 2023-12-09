@@ -87,6 +87,7 @@ public class Dashboard extends JFrame {
         setVisible(true);
 
     }
+
     private DefaultTableModel getDefaultTableModel() {
         List<String> columns = TableUtil.getColumnsCheckout();
 

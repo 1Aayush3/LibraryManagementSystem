@@ -195,6 +195,11 @@ public class AddLibraryMemberWindow extends JFrame implements LibWindow {
             RuleSet rules = RuleSetFactory.getRuleSet(this);
             try{
                 rules.applyRules(this);
+                saveMember();
+                JOptionPane.showMessageDialog(this,"Member Successfully Added!");
+                clear();
+                LibrarySystem.hideAllWindows();
+                LibraryMemberListWindow.INSTANCE.init();
             }
             catch (RuleException e) {
                 JOptionPane.showMessageDialog(this,e.getMessage());
@@ -233,11 +238,11 @@ public class AddLibraryMemberWindow extends JFrame implements LibWindow {
                 cityTextField,
                 stateTextField,
                 zipCodeTextField,
-                phoneNumberTextField,};
+                phoneNumberTextField,
+        };
 
         for (final var textField : textFields) {
-            textField.setText(
-                    "");
+            textField.setText("");
         }
 
     }

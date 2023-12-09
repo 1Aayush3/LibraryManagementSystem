@@ -40,6 +40,9 @@ public class CheckoutRecord implements Serializable {
     public void setCheckoutRecordEntryList(List<CheckoutRecordEntry> checkoutRecordEntryList) {
         this.checkoutRecordEntryList = checkoutRecordEntryList;
     }
+    public void addCheckoutRecordEntryList(CheckoutRecordEntry checkoutRecordEntry) {
+        this.checkoutRecordEntryList.add(checkoutRecordEntry);
+    }
     @Override
     public boolean equals(Object ob) {
         if(ob == null) return false;

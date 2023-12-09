@@ -155,14 +155,32 @@ public class SystemController implements ControllerInterface {
 		}
 		Book book = availableCopy.getBook();
 
-		List<CheckoutRecordEntry> checkoutRecordEntries = new ArrayList<>();
 
-		checkoutRecordEntries.add(new CheckoutRecordEntry(LocalDateTime.now(), LocalDateTime.now().plusDays(book.getMaxCheckoutLength()),availableCopy));
-		da.saveCheckoutRecord(new CheckoutRecord(""+ Util.randomId(),mbrs.get(memberId),checkoutRecordEntries));
+		CheckoutRecordEntry checkoutEntry = new CheckoutRecordEntry(LocalDateTime.now(), LocalDateTime.now().plusDays(book.getMaxCheckoutLength()), availableCopy);
+
+		CheckoutRecord checkoutRecord = getCheckoutRecordByMemberId(memberId);
+
+		if(checkoutRecord != null) {
+			List<CheckoutRecordEntry> checkoutRecordEntries = new ArrayList<>();
+			checkoutRecordEntries.add(new CheckoutRecordEntry(LocalDateTime.now(), LocalDateTime.now().plusDays(book.getMaxCheckoutLength()),availableCopy));
+			checkoutRecord = new CheckoutRecord("" + Util.randomId(), mbrs.get(memberId), checkoutRecordEntries);
+			da.saveCheckoutRecord(checkoutRecord);
+		}
+		else{
+			checkoutRecord.addCheckoutRecordEntryList(checkoutEntry);
+		}
 
 		availableCopy.changeAvailability();
 		availableCopy.getBook().updateCopies(availableCopy);
 		da.updateBook(availableCopy.getBook());
+	}
+
+	private CheckoutRecord getCheckoutRecordByMemberId(String memberId) {
+		List<CheckoutRecord> allCheckoutRecords = allCheckoutRecords();
+		Optional<CheckoutRecord> record
+				= allCheckoutRecords.stream()
+				.filter(r -> r.getMember().getMemberId().equals(memberId)).findFirst();
+		return record.isEmpty()? null : record.get();
 	}
 
 	@Override

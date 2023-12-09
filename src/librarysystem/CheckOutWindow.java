@@ -125,7 +125,7 @@ public class CheckOutWindow extends JFrame implements LibWindow {
     	}
     	private void defineTopPanel() {
     		topPanel = new JPanel();
-    		topPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
+    		topPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
 
 			JLabel title = new JLabel("Library Management System - Checkout");
 			title.setFont(new Font(title.getFont().getFontName(), Font.BOLD, 20));
@@ -138,7 +138,7 @@ public class CheckOutWindow extends JFrame implements LibWindow {
     	
     	private void defineMiddlePanel() {
     		middlePanel=new JPanel();
-    		middlePanel.setLayout(new FlowLayout(FlowLayout.LEFT));
+    		middlePanel.setLayout(new FlowLayout(FlowLayout.CENTER));
     		defineLeftTextPanel();
     		defineRightTextPanel();
     		middlePanel.add(leftTextPanel);

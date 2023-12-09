@@ -66,7 +66,7 @@ public class AddBookCopyWindow extends JFrame {
 
     private void defineTitlePanel() {
         titlePanel = new JPanel();
-        titlePanel.setLayout(new FlowLayout(FlowLayout.LEFT));
+        titlePanel.setLayout(new FlowLayout(FlowLayout.CENTER));
 
         JLabel title = new JLabel("Library Management System - Books");
         title.setHorizontalAlignment(SwingConstants.CENTER);

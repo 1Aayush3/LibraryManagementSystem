@@ -118,7 +118,7 @@ public class CheckOutWindow extends JFrame implements LibWindow {
     		lowerHalf.setLayout(new FlowLayout(FlowLayout.LEFT));
 
 
-			JButton backButton = new JButton("<= Back to Main");
+			JButton backButton = new JButton("< Back");
 			addBackButtonListener(backButton);
 			lowerHalf.add(backButton);
     		

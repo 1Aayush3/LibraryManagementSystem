@@ -79,7 +79,7 @@ public class TableUtil {
             LibraryMember object =  objects.get(key);
             models[i] = new Object[] {
                     object.getMemberId(),
-                    object.getFirstName() + "" + object.getLastName(),
+                    object.getFullName(),
                     object.getTelephone(),
                     object.getAddress(),
             };

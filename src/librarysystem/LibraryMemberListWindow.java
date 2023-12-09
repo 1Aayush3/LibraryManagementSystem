@@ -115,11 +115,21 @@ public class LibraryMemberListWindow extends JFrame implements LibWindow {
     	}
     	private void defineTopPanel() {
     		topPanel = new JPanel();
-    		topPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
+    		topPanel.setLayout(new BoxLayout(topPanel, BoxLayout.Y_AXIS));
 
+			JPanel titlePannel = new JPanel(new FlowLayout(FlowLayout.CENTER));
 			JLabel title = new JLabel("Library Management System - Members");
 			title.setFont(new Font(title.getFont().getFontName(), Font.BOLD, 20));
-    		topPanel.add(title);
+			titlePannel.add(title,BorderLayout.CENTER);
+
+
+			JPanel buttonsPannel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+			addMemberButton = new JButton("Add Member");
+			addMemberButtonListener(addMemberButton);
+			buttonsPannel.add(addMemberButton, BorderLayout.CENTER);
+
+			topPanel.add(titlePannel);
+			topPanel.add(buttonsPannel);
 
 
     	}
@@ -134,10 +144,6 @@ public class LibraryMemberListWindow extends JFrame implements LibWindow {
     		middlePanel.add(leftTextPanel);
     		middlePanel.add(rightTextPanel);
 
-
-			addMemberButton = new JButton("Add Member");
-			addMemberButtonListener(addMemberButton);
-			middlePanel.add(addMemberButton, FlowLayout.CENTER);
 		}
     	private void defineLowerPanel() {
     		lowerPanel = new JPanel();

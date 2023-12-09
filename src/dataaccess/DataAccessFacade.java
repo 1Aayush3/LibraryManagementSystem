@@ -45,6 +45,9 @@ public class DataAccessFacade implements DataAccess {
 	public void saveCheckoutRecord(CheckoutRecord checkoutRecord) {
 		HashMap<String, CheckoutRecord> checkouts = readCheckoutRecordMap();
 		String checkoutRecordId = checkoutRecord.getCheckoutRecordId();
+		if(checkouts.containsKey(checkoutRecordId)){
+			checkouts.remove(checkoutRecordId);
+		}
 		checkouts.put(checkoutRecordId, checkoutRecord);
 		saveToStorage(StorageType.CHECKOUT, checkouts);
 	}

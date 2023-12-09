@@ -63,7 +63,6 @@ public class LoginWindow extends JFrame implements LibWindow {
     		BorderLayout bl = new BorderLayout();
     		bl.setVgap(30);
     		mainPanel.setLayout(bl);
-    					
     		mainPanel.add(upperHalf, BorderLayout.NORTH);
     		mainPanel.add(middleHalf, BorderLayout.CENTER);
     		mainPanel.add(lowerHalf, BorderLayout.SOUTH);
@@ -71,49 +70,47 @@ public class LoginWindow extends JFrame implements LibWindow {
     		isInitialized(true);
     		pack();
     		setSize(800, 600);
-		setMaximumSize(new Dimension(800, 600));
-		setMinimumSize(new Dimension(800, 600));
+			setMaximumSize(new Dimension(800, 600));
+			setMinimumSize(new Dimension(800, 600));
 			setVisible(true);
-
 			Util.centerFrameOnDesktop(LoginWindow.INSTANCE);
-    	
     }
+
     private void defineUpperHalf() {
-    		
-    		upperHalf = new JPanel();
-    		upperHalf.setLayout(new BorderLayout());
-    		defineTopPanel();
-    		defineMiddlePanel();
-    		defineLowerPanel();
-    		upperHalf.add(topPanel, BorderLayout.NORTH);
-    		upperHalf.add(middlePanel, BorderLayout.CENTER);
-    		upperHalf.add(lowerPanel, BorderLayout.SOUTH);
+		upperHalf = new JPanel();
+		upperHalf.setLayout(new BorderLayout());
+		defineTopPanel();
+		defineMiddlePanel();
+		defineLowerPanel();
+		upperHalf.add(topPanel, BorderLayout.NORTH);
+		upperHalf.add(middlePanel, BorderLayout.CENTER);
+		upperHalf.add(lowerPanel, BorderLayout.SOUTH);
 
-    	}
-    	private void defineMiddleHalf() {
-    		middleHalf = new JPanel();
-    		middleHalf.setLayout(new BorderLayout());
-    		JSeparator s = new JSeparator();
-    		s.setOrientation(SwingConstants.HORIZONTAL);
-    		//middleHalf.add(Box.createRigidArea(new Dimension(0,50)));
-    		middleHalf.add(s, BorderLayout.SOUTH);
-    		
-    	}
-    	private void defineLowerHalf() {
+	}
+	private void defineMiddleHalf() {
+		middleHalf = new JPanel();
+		middleHalf.setLayout(new BorderLayout());
+		JSeparator s = new JSeparator();
+		s.setOrientation(SwingConstants.HORIZONTAL);
+		//middleHalf.add(Box.createRigidArea(new Dimension(0,50)));
+		middleHalf.add(s, BorderLayout.SOUTH);
 
-    		lowerHalf = new JPanel();
-    		lowerHalf.setLayout(new FlowLayout(FlowLayout.LEFT));
+	}
+	private void defineLowerHalf() {
 
-    		
-    	}
-    	private void defineTopPanel() {
-    		topPanel = new JPanel(new BorderLayout());
-			topPanel.setBackground(Color.white);
+		lowerHalf = new JPanel();
+		lowerHalf.setLayout(new FlowLayout(FlowLayout.LEFT));
 
-			setPathToImage();
-			ImageIcon image = new ImageIcon(pathToImage);
-			topPanel.add(new JLabel(image), BorderLayout.NORTH);
-		}
+
+	}
+	private void defineTopPanel() {
+		topPanel = new JPanel(new BorderLayout());
+		topPanel.setBackground(Color.white);
+
+		setPathToImage();
+		ImageIcon image = new ImageIcon(pathToImage);
+		topPanel.add(new JLabel(image), BorderLayout.NORTH);
+	}
 	private void setPathToImage() {
 		String currDirectory = System.getProperty("user.dir");
 		String osName = System.getProperty("os.name");

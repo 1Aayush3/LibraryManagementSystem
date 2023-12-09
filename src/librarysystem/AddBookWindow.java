@@ -9,6 +9,7 @@ import validation.RuleSet;
 import validation.RuleSetFactory;
 
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -17,6 +18,8 @@ import java.util.List;
 
 public class AddBookWindow extends JFrame {
 
+    public static AddBookWindow INSTANCE = new AddBookWindow();
+    private boolean isInstantiated = false;
     public JTextField getIsbnTextField() {
         return isbnTextField;
     }
@@ -42,11 +45,19 @@ public class AddBookWindow extends JFrame {
         initialize();
     }
 
-    private void initialize() {
+    public void initialize() {
+
+        if(isInstantiated){
+            AddBookWindow.INSTANCE.setVisible(true);
+            return;
+        }
+        this.isInstantiated = true;
         setTitle("Add New Book");
-        setBounds(500, 100, 433, 550);
+        setBounds(500, 100, 433, 300);
+
 
         JPanel mPanel = new JPanel(new BorderLayout());
+        mPanel.setBorder(new EmptyBorder(20,40,0,40));
 
         JPanel mainPanel = new JPanel(new GridLayout(4, 2, 10, 10));
 
@@ -99,7 +110,7 @@ public class AddBookWindow extends JFrame {
     private void submitBook() {
         String isbn = isbnTextField.getText().trim();
         String title = titleTextField.getText().trim();
-        int maxCheckoutLength = Integer.parseInt(maxCheckoutLengthTextField.getText().trim());
+
 
         RuleSet rules = RuleSetFactory.getRuleSet(this);
         try{
@@ -115,17 +126,21 @@ public class AddBookWindow extends JFrame {
                 }
             }
 
+            int maxCheckoutLength = Integer.parseInt(maxCheckoutLengthTextField.getText().trim());
+
             controller.addBook(
                 new Book(isbn,title,maxCheckoutLength,selectedAuthor)
             );
             JOptionPane.showMessageDialog(this, "Book Added:\nISBN: " + isbn + "\nTitle: " + title + "\nAuthor: "+authorComboBox.getSelectedItem() );
+            isbnTextField.setText("");
+            titleTextField.setText("");
+            maxCheckoutLengthTextField.setText("");
+            authorComboBox.setSelectedIndex(-1);
         }catch (RuleException e){
             JOptionPane.showMessageDialog(this,e.getMessage());
         }
 
-        isbnTextField.setText("");
-        titleTextField.setText("");
-        authorComboBox.setSelectedIndex(-1);
+
     }
 
     public static void main(String[] args) {

@@ -38,7 +38,8 @@ public class TableUtil {
 
     public static Object[][] getRowsCheckout(List<CheckoutRecord> checkoutRecords) {
 
-        Object[][] models = new Object[checkoutRecords.size()][];
+
+        List<Object[]> checkouts = new ArrayList<>();
         // Populate the table model
         for (int i =0;i<checkoutRecords.size();i++) {
             CheckoutRecord object = checkoutRecords.get(i);
@@ -46,14 +47,18 @@ public class TableUtil {
                 Book book = checkoutrecordentry.getBookCopy().getBook();
                 LocalDateTime checkoutDate = checkoutrecordentry.getCheckoutDate();
                 LocalDateTime dueDate = checkoutrecordentry.getDueDate();
-                models[i] = new Object[]{
+                checkouts.add(new Object[]{
                         object.getMember().getFullName(),
                         book.getTitle(),
                         book.getIsbn(),
                         checkoutDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")),
                         dueDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"))
-                };
+                });
             }
+        }
+        Object[][] models = new Object[checkouts.size()][];
+        for(int i=0;i<checkouts.size();i++){
+            models[i] = checkouts.get(i);
         }
         return models;
     }

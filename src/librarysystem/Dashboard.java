@@ -20,6 +20,7 @@ public class Dashboard extends JFrame {
 
     private JPanel infoPanel;
     private JPanel lowerPanel;
+    Object[][] rows;
     public JTable table;
     private SystemController systemController;
     private boolean isInitialized = false;
@@ -91,7 +92,7 @@ public class Dashboard extends JFrame {
     private DefaultTableModel getDefaultTableModel() {
         List<String> columns = TableUtil.getColumnsCheckout();
 
-        Object[][] rows = TableUtil.getRowsCheckout(
+        rows = TableUtil.getRowsCheckout(
                 systemController.filteredCheckoutRecords(LocalDateTime.now().truncatedTo(java.time.temporal.ChronoUnit.DAYS),
                         null
                 ));

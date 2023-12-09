@@ -160,7 +160,7 @@ public class SystemController implements ControllerInterface {
 
 		CheckoutRecord checkoutRecord = getCheckoutRecordByMemberId(memberId);
 
-		if(checkoutRecord != null) {
+		if(checkoutRecord == null) {
 			List<CheckoutRecordEntry> checkoutRecordEntries = new ArrayList<>();
 			checkoutRecordEntries.add(new CheckoutRecordEntry(LocalDateTime.now(), LocalDateTime.now().plusDays(book.getMaxCheckoutLength()),availableCopy));
 			checkoutRecord = new CheckoutRecord("" + Util.randomId(), mbrs.get(memberId), checkoutRecordEntries);
@@ -168,6 +168,7 @@ public class SystemController implements ControllerInterface {
 		}
 		else{
 			checkoutRecord.addCheckoutRecordEntryList(checkoutEntry);
+			da.saveCheckoutRecord(checkoutRecord);
 		}
 
 		availableCopy.changeAvailability();

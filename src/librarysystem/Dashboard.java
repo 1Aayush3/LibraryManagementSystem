@@ -86,6 +86,7 @@ public class Dashboard extends JFrame {
         setVisible(true);
 
     }
+
     private DefaultTableModel getDefaultTableModel() {
         List<String> columns = TableUtil.getColumnsCheckout();
 
@@ -126,7 +127,7 @@ public class Dashboard extends JFrame {
     private void addBackButtonListener(JButton butn) {
         butn.addActionListener(evt -> {
             LibrarySystem.hideAllWindows();
-            Dashboard.INSTANCE.init();
+            LoginWindow.INSTANCE.init();
         });
     }
 

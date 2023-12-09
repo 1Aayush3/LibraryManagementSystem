@@ -11,6 +11,8 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowFocusListener;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,6 +25,7 @@ public class AddBookCopyWindow extends JFrame {
     private JPanel titlePanel;
     private JTable bookListTable;
     private JLabel searchResult;
+    private JButton addBook;
     private JPanel bottomPannel;
     private JButton addBookCopy;
     private Object[][] rows;
@@ -34,6 +37,7 @@ public class AddBookCopyWindow extends JFrame {
     void init(){
         if(this.isInitialized){
             AddBookCopyWindow.INSTANCE.setVisible(true);
+            updateTable();
             return;
         }
 
@@ -97,18 +101,26 @@ public class AddBookCopyWindow extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 systemController.addBookCopy(isbn);
-                rows = TableUtil.getRowsBooks(systemController.allBooks().values().stream().toList());
                 updateTable();
+            }
+        });
+
+        addBook.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                AddBookWindow.INSTANCE.initialize();
             }
         });
     }
 
     private void updateTable() {
+        rows = TableUtil.getRowsBooks(systemController.allBooks().values().stream().toList());
         DefaultTableModel tableModel = TableUtil.getDefaultTableModel(columns, rows);
         bookListTable.setModel(tableModel);
         bookListTable.revalidate();
         bookListTable.repaint();
     }
+
 
     private void createTable() {
         columns = new ArrayList<>();
@@ -130,6 +142,18 @@ public class AddBookCopyWindow extends JFrame {
         addBookCopy = new JButton("Add Book Copy");
         searchButton = new JButton("Search");
         addBookCopy.setVisible(false);
+
+        addWindowFocusListener(new WindowFocusListener() {
+            @Override
+            public void windowGainedFocus(WindowEvent e) {
+                updateTable();
+            }
+
+            @Override
+            public void windowLostFocus(WindowEvent e) {
+
+            }
+        });
     }
 
     private void createTopPanel() {
@@ -141,12 +165,18 @@ public class AddBookCopyWindow extends JFrame {
         JLabel searchText = new JLabel("Search Book by ISBN");
         searchText.setAlignmentX(Component.CENTER_ALIGNMENT);
 
+        JPanel searchAndCreateBookPanel = new JPanel(new BorderLayout());
+        addBook = new JButton("Add Book");
+
         JPanel searchFieldPanel = new JPanel();
         searchFieldPanel.add(searchField);
         searchFieldPanel.add(searchButton);
 
+        searchAndCreateBookPanel.add(searchFieldPanel, BorderLayout.CENTER);
+        searchAndCreateBookPanel.add(addBook, BorderLayout.EAST);
+
         searchPanel.add(searchText, BorderLayout.NORTH);
-        searchPanel.add(searchFieldPanel, BorderLayout.CENTER);
+        searchPanel.add(searchAndCreateBookPanel, BorderLayout.CENTER);
 
         JPanel resultPanel = new JPanel();
         resultPanel.add(searchResult);

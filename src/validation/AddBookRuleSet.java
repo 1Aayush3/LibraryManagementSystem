@@ -21,6 +21,21 @@ public class AddBookRuleSet implements RuleSet {
                 AddBookWindow.getMaxCheckoutLengthTextField().getText(),
         };
         checkIdNullValidity(values);
+        checkNumericValidity(values[3]);
+    }
+
+
+    private void checkNumericValidity(String values) throws RuleException {
+        try {
+            // Attempt to parse the string as an integer
+            int integerValue = Integer.parseInt(values);
+
+            // If no exception is thrown, the string is a valid integer
+            System.out.println("Valid Integer: " + integerValue);
+        } catch (NumberFormatException e) {
+            // If a NumberFormatException is caught, the string is not a valid integer
+            throw new RuleException("Checkout Length should be numeric");
+        }
     }
 
     private void checkIdNullValidity(String[] values) throws RuleException{

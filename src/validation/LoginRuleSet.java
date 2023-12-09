@@ -13,7 +13,6 @@ public class LoginRuleSet implements RuleSet {
     public void applyRules(Component ob) throws RuleException {
         loginWindow = (LoginWindow) ob;
         checkIdNullValidity();
-        checkIdIntegerValidity();
     }
 
     private void checkIdNullValidity() throws RuleException{
@@ -21,12 +20,5 @@ public class LoginRuleSet implements RuleSet {
             throw new RuleException( Message.invalidErrorText);
         }
     }
-    private void checkIdIntegerValidity() throws RuleException {
-        String userId = loginWindow.getId();
-        try {
-            Integer.parseInt(userId);
-        } catch (NumberFormatException e) {
-            throw new RuleException( Message.invalidErrorText);
-        }
-    }
+
 }

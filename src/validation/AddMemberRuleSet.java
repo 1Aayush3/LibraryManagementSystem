@@ -31,16 +31,16 @@ public class AddMemberRuleSet implements RuleSet {
 
     private void checkAlphaValidity(String[] values) throws RuleException {
         // Firstname and lastname shouldn't have any special characters or numbers
-        for (String value : new String[]{values[1], values[2], values[4], values[5], values[6]}) {
+        for (String value : new String[]{values[1], values[2]}) {
             if (!value.matches("[a-zA-Z]+")) {
-                throw new RuleException(Message.emptyFieldText);
+                throw new RuleException("Name should only contain alphabets");
             }
         }
     }
     private void checkPhoneNumberValidity(String phoneNumber) throws RuleException {
         // Phone number should be 10 digits
         if (!phoneNumber.matches("\\d{10}")) {
-            throw new RuleException(Message.emptyFieldText);
+            throw new RuleException("Phone number should be 10 digit");
         }
     }
     private void checkZipCodeValidity(String zipCode) throws RuleException {
@@ -48,17 +48,17 @@ public class AddMemberRuleSet implements RuleSet {
         try {
             int zipCodeValue = Integer.parseInt(zipCode);
             if (zipCode.length() > 8) {
-                throw new RuleException(Message.emptyFieldText);
+                throw new RuleException("Zip code can't be more than 8");
             }
         } catch (NumberFormatException e) {
-            throw new RuleException(Message.emptyFieldText);
+            throw new RuleException("Zip code should be numeric");
         }
     }
 
     private void checkIdNullValidity(String[] values) throws RuleException{
         for(final var value: values){
             if(value == null || value.trim().isEmpty()){
-                throw new RuleException( Message.emptyFieldText);
+                throw new RuleException( "All the fields are mandatory");
             }
 
 

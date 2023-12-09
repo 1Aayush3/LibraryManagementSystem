@@ -218,8 +218,15 @@ public class CheckOutWindow extends JFrame implements LibWindow {
 			try {
 				rules.applyRules(this);
 			} catch (RuleException e) {
-				System.out.println(e.toString());
+				System.out.println(e.getMessage());
 			}
+			try {
+				ci.checkoutBook(getMemberId(), getBookISBN());
+			}
+			catch (RuleException ex){
+				System.out.println(ex.getMessage());
+			}
+			refreshTable();
 		});
 	}
 

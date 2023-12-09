@@ -1,15 +1,14 @@
 package validation;
 
-import librarysystem.AddBookCopy;
-import librarysystem.LoginWindow;
+import librarysystem.AddBookCopyWindow;
 
 import java.awt.*;
 
 public class AddBookCopyRuleSet implements RuleSet{
-    AddBookCopy addBookCopy;
+    AddBookCopyWindow addBookCopy;
     @Override
     public void applyRules(Component ob) throws RuleException {
-        addBookCopy = (AddBookCopy) ob;
+        addBookCopy = (AddBookCopyWindow) ob;
         checkNullException();
     }
 

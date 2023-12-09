@@ -54,7 +54,7 @@ public class AddBookCopyWindow extends JFrame {
 
     private void createBottomPanel() {
         bottomPannel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        JButton backButton = new JButton("<= Back to Main");
+        JButton backButton = new JButton("< Back");
         addBackButtonListener(backButton);
         bottomPannel.add(backButton);
     }

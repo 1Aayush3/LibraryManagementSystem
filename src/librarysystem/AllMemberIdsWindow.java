@@ -63,7 +63,7 @@ public class AllMemberIdsWindow extends JFrame implements LibWindow {
 		lowerPanel = new JPanel();
 		FlowLayout fl = new FlowLayout(FlowLayout.LEFT);
 		lowerPanel.setLayout(fl);
-		JButton backButton = new JButton("<== Back to Main");
+		JButton backButton = new JButton("< Back");
 		addBackButtonListener(backButton);
 		lowerPanel.add(backButton);
 	}

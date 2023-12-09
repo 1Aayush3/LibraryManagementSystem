@@ -24,6 +24,35 @@ public class AddMemberRuleSet implements RuleSet {
                 libraryMember.getZipCodeTextField().getText()
         };
         checkIdNullValidity(values);
+        checkAlphaValidity(values);
+        checkPhoneNumberValidity(values[3]);
+        checkZipCodeValidity(values[7]);
+    }
+
+    private void checkAlphaValidity(String[] values) throws RuleException {
+        // Firstname and lastname shouldn't have any special characters or numbers
+        for (String value : new String[]{values[1], values[2], values[4], values[5], values[6]}) {
+            if (!value.matches("[a-zA-Z]+")) {
+                throw new RuleException(Message.emptyFieldText);
+            }
+        }
+    }
+    private void checkPhoneNumberValidity(String phoneNumber) throws RuleException {
+        // Phone number should be 10 digits
+        if (!phoneNumber.matches("\\d{10}")) {
+            throw new RuleException(Message.emptyFieldText);
+        }
+    }
+    private void checkZipCodeValidity(String zipCode) throws RuleException {
+        // Zip code should be a number less than 8 digits
+        try {
+            int zipCodeValue = Integer.parseInt(zipCode);
+            if (zipCode.length() > 8) {
+                throw new RuleException(Message.emptyFieldText);
+            }
+        } catch (NumberFormatException e) {
+            throw new RuleException(Message.emptyFieldText);
+        }
     }
 
     private void checkIdNullValidity(String[] values) throws RuleException{
@@ -31,7 +60,8 @@ public class AddMemberRuleSet implements RuleSet {
             if(value == null || value.trim().isEmpty()){
                 throw new RuleException( Message.emptyFieldText);
             }
-            libraryMember.saveMember();
+
+
         }
     }
 }

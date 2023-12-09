@@ -199,6 +199,9 @@ public class AddLibraryMemberWindow extends JFrame implements LibWindow {
             catch (RuleException e) {
                 JOptionPane.showMessageDialog(this,e.getMessage());
             }
+            saveMember();
+            LibrarySystem.hideAllWindows();
+            LibraryMemberListWindow.INSTANCE.init();
         });
     }
 

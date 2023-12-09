@@ -10,6 +10,7 @@ import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
 
 
@@ -22,6 +23,9 @@ public class Dashboard extends JFrame {
     public JTable table;
     private SystemController systemController;
     private boolean isInitialized = false;
+    private JLabel lblLibraryMembers;
+    private JLabel lblTotalBooks;
+    private JLabel lblCheckedOutBooks;
 
     public boolean isInitialized() {
         return isInitialized;
@@ -33,6 +37,7 @@ public class Dashboard extends JFrame {
         if(this.isInitialized){
             Dashboard.INSTANCE.setVisible(true);
             refreshTable();
+            refreshCount();
             return;
         }
         isInitialized(true);
@@ -122,15 +127,30 @@ public class Dashboard extends JFrame {
     private void addBackButtonListener(JButton butn) {
         butn.addActionListener(evt -> {
             LibrarySystem.hideAllWindows();
-            Dashboard.INSTANCE.init();
+            LoginWindow.INSTANCE.setVisible(true);
         });
+    }
+    public void refreshCount(){
+        if(lblLibraryMembers!=null && lblTotalBooks!=null && lblCheckedOutBooks!=null) {
+            lblLibraryMembers.setText(systemController.getTotalLibraryMemberss());
+            lblTotalBooks.setText(systemController.getTotalBooks());
+            lblCheckedOutBooks.setText(systemController.getTotalCheckedOut());
+        }
     }
 
     private void createInfoPanel() {
+        HashMap<JPanel, JLabel> firstPanel = createNumberBox("Library Members", systemController.getTotalLibraryMemberss());
+        JPanel boxPanel1 = (JPanel) firstPanel.keySet().toArray()[0];
+        lblLibraryMembers = firstPanel.get(boxPanel1);
 
-        JPanel boxPanel1 = createNumberBox("Library Members", systemController.getTotalLibraryMemberss());
-        JPanel boxPanel2 = createNumberBox("Books", systemController.getTotalBooks());
-        JPanel boxPanel3 = createNumberBox("Checked Out Books", systemController.getTotalCheckedOut());
+        HashMap<JPanel, JLabel> secondPanel = createNumberBox("Books", systemController.getTotalBooks());
+        JPanel boxPanel2 = (JPanel) secondPanel.keySet().toArray()[0];
+        lblTotalBooks = firstPanel.get(boxPanel2);
+
+
+        HashMap<JPanel, JLabel> thirdPanel = createNumberBox("Checked Out Books", systemController.getTotalCheckedOut());
+        JPanel boxPanel3 = (JPanel) thirdPanel.keySet().toArray()[0];
+        lblCheckedOutBooks = firstPanel.get(boxPanel3);
 
         boxPanel1.addMouseListener(new MouseListener() {
             @Override
@@ -237,7 +257,7 @@ public class Dashboard extends JFrame {
     }
 
 
-    private JPanel createNumberBox(String title, String number) {
+    private HashMap<JPanel,JLabel> createNumberBox(String title, String number) {
         JPanel boxPanel = new JPanel();
         boxPanel.setLayout(new BoxLayout(boxPanel, BoxLayout.Y_AXIS));
 
@@ -258,7 +278,10 @@ public class Dashboard extends JFrame {
         boxPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         boxPanel.setPreferredSize(new Dimension(180,65));
         boxPanel.setBackground(new Color(224, 224, 224));
-        return boxPanel;
+
+        HashMap<JPanel,JLabel> response = new HashMap<>();
+        response.put(boxPanel,numberLabel);
+        return response;
     }
 
     private Dashboard(){};
